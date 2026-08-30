@@ -1070,27 +1070,24 @@ class KoyoApp {
 
   async handlePrintLabel() {
     const printStatus = document.getElementById("printStatusText");
-    if (printStatus) printStatus.textContent = "Connecting to Bluetooth thermal printer...";
+    if (printStatus) printStatus.textContent = "Transmitting to MacBook workshop printer...";
 
     try {
-      this.showToast("Connecting to wireless thermal printer...");
-      const result = await this.labelEngine.smartPrint(93);
+      this.showToast("🖨️ Transmitting sticker to MacBook printer...");
+      const result = await this.labelEngine.printToMacBook(null, 140);
 
       if (result && result.success) {
-        this.showToast("✅ Label Printed Successfully!");
-        if (printStatus) printStatus.textContent = "✅ Printed to thermal printer!";
+        this.showToast("✅ Printed to Thermal Printer!");
+        if (printStatus) printStatus.textContent = "✅ Printed on MacBook thermal printer!";
       } else {
-        throw new Error(result?.message || "Print failed");
+        throw new Error(result?.error || "Print failed");
       }
     } catch (err) {
-      console.warn("Print exception:", err);
-      // If user cancelled Bluetooth picker or on iOS Safari, download image
-      this.showToast("ℹ️ Label sticker saved to your device!");
+      console.warn("Print error:", err);
+      this.showToast("ℹ️ Sticker saved to your device!");
       this.handleDownloadLabel();
       if (printStatus) {
-        printStatus.textContent = navigator.bluetooth 
-          ? "Sticker saved. Tap again to pair Bluetooth printer."
-          : "Saved 55x30mm PNG sticker to device!";
+        printStatus.textContent = "Saved 55x30mm PNG sticker to device.";
       }
     }
   }
