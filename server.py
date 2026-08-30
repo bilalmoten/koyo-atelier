@@ -117,7 +117,7 @@ class AtelierHandler(http.server.SimpleHTTPRequestHandler):
                 payload = json.loads(body)
 
                 data_url = payload.get("image", "")
-                intensity = int(payload.get("intensity", 135))
+                intensity = int(payload.get("intensity", 140))
                 feed_lines = int(payload.get("feed_lines", 24))
 
                 if "," in data_url:
@@ -125,56 +125,35 @@ class AtelierHandler(http.server.SimpleHTTPRequestHandler):
                 img_bytes = base64.b64decode(data_url)
                 pil_img = Image.open(io.BytesIO(img_bytes)).convert("RGB")
 
-                # Threshold to pure 1-bit monochrome (384px wide)
-                WIDTH_PX = 384
-                BYTES_PER_ROW = 48
-                if pil_img.width != WIDTH_PX:
-                    pil_img = pil_img.resize((WIDTH_PX, int(pil_img.height * (WIDTH_PX / pil_img.width))), Image.Resampling.LANCZOS)
+                # Save temporary image
+                temp_path = os.path.join(ATELIER_DIR, "temp_label.png")
+                pil_img.save(temp_path, "PNG")
 
-                gray = pil_img.convert("L")
-                mono = gray.point(lambda x: 0 if x < 180 else 255, "1")
-                height = mono.height
+                from c26_printer.converter import file_or_text_to_raster_buffers
+                from c26_printer.ble import BLEPrinter
 
-                blank_row = bytes(BYTES_PER_ROW)
-                rows = []
-                for y in range(height):
-                    row_bytes = bytearray(BYTES_PER_ROW)
-                    for x in range(WIDTH_PX):
-                        pixel = mono.getpixel((x, y))
-                        if pixel == 0:  # Solid Black
-                            byte_idx = x // 8
-                            bit_idx = x % 8
-                            row_bytes[byte_idx] |= (1 << bit_idx)
-                    rows.append(bytes(row_bytes))
+                buffers = file_or_text_to_raster_buffers(
+                    temp_path,
+                    dither_method="threshold",
+                    brightness=1.0,
+                    contrast=1.2,
+                    feed_lines=feed_lines,
+                )
 
-                # Add bottom feed padding
-                for _ in range(feed_lines):
-                    rows.append(blank_row)
+                if buffers:
+                    def print_worker():
+                        try:
+                            p = BLEPrinter()
+                            for buf, num_lines in buffers:
+                                asyncio.run(p.print_image(buf, num_lines, intensity=intensity))
+                            print("✅ Label print job dispatched successfully from web app.")
+                        except Exception as err:
+                            print(f"ℹ️ Print error: {err}")
 
-                while len(rows) < 90:
-                    rows.append(blank_row)
-
-                buffer = bytearray()
-                for r in rows:
-                    buffer.extend(r)
-
-                final_buf = bytes(buffer)
-                total_lines = len(rows)
-
-                # Try BLE dispatch in background thread
-                def print_worker():
-                    try:
-                        from c26_printer.ble import BLEPrinter
-                        p = BLEPrinter()
-                        async def do_work():
-                            await p.print_image(final_buf, total_lines, intensity=intensity)
-                        asyncio.run(do_work())
-                        print(f"✅ Label print job dispatched successfully ({total_lines} lines).")
-                    except Exception as err:
-                        print(f"ℹ️ Physical printer not reachable ({err}). Label saved digitally.")
-
-                threading.Thread(target=print_worker, daemon=True).start()
-                self._send_json({"success": True, "lines": total_lines, "message": "Print job transmitted"})
+                    threading.Thread(target=print_worker, daemon=True).start()
+                    self._send_json({"success": True, "lines": buffers[0][1], "message": "Dispatched to MacBook printer"})
+                else:
+                    self._send_json({"success": False, "error": "Conversion failed"})
             except Exception as e:
                 print("Print API error:", e)
                 self._send_json({"success": False, "error": str(e)})
