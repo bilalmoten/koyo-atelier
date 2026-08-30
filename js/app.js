@@ -1070,22 +1070,28 @@ class KoyoApp {
 
   async handlePrintLabel() {
     const printStatus = document.getElementById("printStatusText");
-    if (printStatus) printStatus.textContent = "Connecting to thermal printer...";
+    if (printStatus) printStatus.textContent = "Connecting to Bluetooth thermal printer...";
 
     try {
-      this.showToast("Sending 55x30mm label to thermal printer...");
-      const result = await this.labelEngine.printToPrinter("/api/print", 135);
+      this.showToast("Connecting to wireless thermal printer...");
+      const result = await this.labelEngine.smartPrint(93);
+
       if (result && result.success) {
         this.showToast("✅ Label Printed Successfully!");
-        if (printStatus) printStatus.textContent = "✅ Printed on Thermal Printer!";
+        if (printStatus) printStatus.textContent = "✅ Printed to thermal printer!";
       } else {
-        throw new Error(result?.error || "Print failed");
+        throw new Error(result?.message || "Print failed");
       }
     } catch (err) {
-      console.warn("Print error:", err);
-      this.showToast("ℹ️ Downloading label image to device.");
+      console.warn("Print exception:", err);
+      // If user cancelled Bluetooth picker or on iOS Safari, download image
+      this.showToast("ℹ️ Label sticker saved to your device!");
       this.handleDownloadLabel();
-      if (printStatus) printStatus.textContent = "Downloaded label PNG.";
+      if (printStatus) {
+        printStatus.textContent = navigator.bluetooth 
+          ? "Sticker saved. Tap again to pair Bluetooth printer."
+          : "Saved 55x30mm PNG sticker to device!";
+      }
     }
   }
 
@@ -1095,7 +1101,7 @@ class KoyoApp {
     link.download = `${(this.perfumeName || "koyo_fragrance").toLowerCase().replace(/\s+/g, "_")}_label_10ml.png`;
     link.href = dataUrl;
     link.click();
-    this.showToast("Saved label sticker to device!");
+    this.showToast("Saved 55x30mm sticker to device!");
   }
 
   setupQRModal() {
