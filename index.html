@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>KOYO Perfume Atelier · 10ml Fragrance Studio</title>
+  <meta name="description" content="Official interactive fragrance formulation studio for KOYO Perfume Atelier. Craft, balance, and label your bespoke 10ml perfume.">
+
+  <!-- Google Luxury Typography Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/luxury-theme.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header class="atelier-header">
+    <a href="#" class="brand-wrapper" onclick="window.koyoApp.switchTab('accords'); return false;">
+      <img src="assets/koyo_logo_black.png" alt="KOYO Logo" class="brand-logo">
+      <div class="brand-titles">
+        <span class="brand-main">KOYO ATELIER</span>
+        <span class="brand-sub">10ML BESPOKE FORMULATION</span>
+      </div>
+    </a>
+
+    <div class="header-actions">
+      <div class="header-status-pill" id="headerDropCount">
+        0 / 60 Drops
+      </div>
+      <button class="btn-outline-gold" id="btnOpenQR" title="Display Workshop QR Code for Phones">
+        📱 QR
+      </button>
+    </div>
+  </header>
+
+  <!-- Desktop Sticky Navigation Tabs -->
+  <nav class="atelier-nav-bar">
+    <div class="nav-tabs-container">
+      <button class="nav-tab-btn active" data-tab="accords">
+        <span class="tab-icon">🌸</span>
+        <span>Scent Menu & Journal</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="presets">
+        <span class="tab-icon">✨</span>
+        <span>Ready Oils & Formulas</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="lab">
+        <span class="tab-icon">🧪</span>
+        <span>10ml Formulation Lab</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="recipe">
+        <span class="tab-icon">📋</span>
+        <span>10ml Recipe & Mix</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="label">
+        <span class="tab-icon">🏷️</span>
+        <span>Bottle Label & Print</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Bottom Navigation Bar (iOS / Android Style) -->
+  <nav class="mobile-bottom-nav">
+    <button class="mobile-nav-item active" data-tab="accords">
+      <span class="mobile-icon">🌸</span>
+      <span class="mobile-label">Journal</span>
+    </button>
+    <button class="mobile-nav-item" data-tab="presets">
+      <span class="mobile-icon">✨</span>
+      <span class="mobile-label">Oils</span>
+    </button>
+    <button class="mobile-nav-item" data-tab="lab">
+      <span class="mobile-icon">🧪</span>
+      <span class="mobile-label">10ml Lab</span>
+    </button>
+    <button class="mobile-nav-item" data-tab="recipe">
+      <span class="mobile-icon">📋</span>
+      <span class="mobile-label">Recipe</span>
+    </button>
+    <button class="mobile-nav-item" data-tab="label">
+      <span class="mobile-icon">🏷️</span>
+      <span class="mobile-label">Label</span>
+    </button>
+  </nav>
+
+  <!-- Main Content Layout -->
+  <main class="app-container">
+
+    <!-- Desktop Workshop Flow Banner (Hidden on Mobile) -->
+    <div class="workflow-banner">
+      <div class="flow-step active" data-target-tab="accords">
+        <div class="flow-step-num">1</div>
+        <span>Smell & Discover</span>
+      </div>
+      <span class="flow-arrow">➔</span>
+      <div class="flow-step" data-target-tab="presets">
+        <div class="flow-step-num">2</div>
+        <span>Select Style / Oil</span>
+      </div>
+      <span class="flow-arrow">➔</span>
+      <div class="flow-step" data-target-tab="lab">
+        <div class="flow-step-num">3</div>
+        <span>Build 10ml Formula</span>
+      </div>
+      <span class="flow-arrow">➔</span>
+      <div class="flow-step" data-target-tab="label">
+        <div class="flow-step-num">4</div>
+        <span>Print Bottle Sticker</span>
+      </div>
+    </div>
+
+    <!-- TAB 1: Scent Menu & Smelling Notes Station -->
+    <section class="tab-panel active" id="tab-accords">
+      <div class="section-hero">
+        <span class="hero-tag">Olfactory Discovery Station</span>
+        <h1 class="hero-title">Smell First, Balance Second</h1>
+        <p class="hero-desc">
+          Smell each pure accord from the workshop vials. Use the roles (Top, Heart, Base) to understand how fragrance blooms and evaporates over time, and write your personal smelling impressions below.
+        </p>
+      </div>
+
+      <!-- Perfumer Guidance & Proportions Masterclass -->
+      <div class="guidance-box">
+        <div class="guidance-header">
+          <span>🌿</span>
+          <span>Master Perfumer Blending Rules (10ml Bottle)</span>
+        </div>
+        <div class="rules-grid">
+          <div class="rule-item">
+            <h4>1. The 30–30–40 Golden Ratio</h4>
+            <p>For a balanced 60-drop formula: aim for approx. <b>15 drops Top</b> (fresh opening), <b>20 drops Heart</b> (body & character), and <b>25 drops Base</b> (warm lasting trail).</p>
+          </div>
+          <div class="rule-item">
+            <h4>2. Musks = All-Day Tenacity</h4>
+            <p>Always include ethical musks (White Musk, Galaxolide, Ethylene Brassylate). They act as fixatives so your fragrance lingers beautifully on skin.</p>
+          </div>
+          <div class="rule-item">
+            <h4>3. Harmonic Pairings</h4>
+            <p>Pineapple pairs with Leather & Musks; Lotus pairs with White Floral & Citrus; Rose Honey pairs with Marshmallow & Tobacco.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <button class="filter-chip active" data-filter="all">All 13 Pure Accords</button>
+        <button class="filter-chip" data-filter="top">⚡ Top Notes</button>
+        <button class="filter-chip" data-filter="heart">🌸 Heart Notes</button>
+        <button class="filter-chip" data-filter="base">🔥 Base & Musks</button>
+        <button class="filter-chip" data-filter="fresh">Fresh</button>
+        <button class="filter-chip" data-filter="fruity">Fruity</button>
+        <button class="filter-chip" data-filter="floral">Floral</button>
+        <button class="filter-chip" data-filter="sweet">Sweet</button>
+        <button class="filter-chip" data-filter="musk">Musk</button>
+      </div>
+
+      <!-- Accords Grid -->
+      <div class="accords-grid" id="accordsGrid">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- TAB 2: Presets & Ready-Made Oils -->
+    <section class="tab-panel" id="tab-presets">
+      <div class="section-hero">
+        <span class="hero-tag">Curated Concentrates & Formulas</span>
+        <h2 class="hero-title">Ready Oils & Signature Formulas</h2>
+        <p class="hero-desc">
+          Choose one of the 4 iconic premixed ready oils for your 10ml bottle, or load a starting recipe to customize in the lab.
+        </p>
+      </div>
+
+      <!-- Section: 4 Premixed Ready Perfume Oils -->
+      <div style="margin-bottom:40px;">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+          <span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:var(--role-ready);"></span>
+          <h3 style="font-family:var(--font-serif); color:#ffffff; font-size:1.3rem;">
+            4 Premixed Ready Perfume Oils (Standalone or Layerable)
+          </h3>
+        </div>
+        <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:16px;">
+          These master perfume oils are completely pre-balanced. You can fill your 10ml bottle purely with one master oil, or choose to layer a few drops of pure accords on top.
+        </p>
+        <div class="presets-grid" id="readyMadesGrid">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+      <!-- Section: Custom Accord Blending Formulas -->
+      <div>
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+          <span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:var(--gold-primary);"></span>
+          <h3 style="font-family:var(--font-serif); color:#ffffff; font-size:1.3rem;">
+            Bespoke Accord Blending Formulas
+          </h3>
+        </div>
+        <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:16px;">
+          Starting balance templates you can load into the lab and freely tweak drop-by-drop.
+        </p>
+        <div class="presets-grid" id="presetsGrid">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: Custom Formulation Lab -->
+    <section class="tab-panel" id="tab-lab">
+      <div class="section-hero">
+        <span class="hero-tag">Master Perfumer Studio</span>
+        <h2 class="hero-title">10ml Bespoke Formulation Lab</h2>
+        <p class="hero-desc">
+          Select your projection & concentration style, fine-tune drop counts for each accord, and monitor your fragrance pyramid balance in real time.
+        </p>
+      </div>
+
+      <!-- Concentration / Sillage Selector (3 Modes Only) -->
+      <div style="margin-bottom:20px;">
+        <h3 style="font-family:var(--font-serif); font-size:1.08rem; color:var(--gold-light); margin-bottom:4px;">
+          1. Choose Concentration & Projection Profile
+        </h3>
+        <p style="font-size:0.82rem; color:#cbd5e1; margin-bottom:10px;">
+          Adjusts the ratio of concentrated perfume oil versus artisan ethanol in your 10ml bottle.
+        </p>
+        <div class="concentration-grid" id="concentrationGrid">
+          <!-- Rendered via JS (3 cards: Airy, Balanced, Intense) -->
+        </div>
+      </div>
+
+      <!-- Lab Grid: Builder on Left, Pyramid & Analytics on Right -->
+      <div class="lab-layout">
+        <!-- Left: Accords Steppers List -->
+        <div class="glass-card lab-builder-card">
+          
+          <!-- Capacity Progress Card -->
+          <div class="capacity-card">
+            <div class="capacity-header">
+              <span class="capacity-title">🧴 10ml Bottle Oil Fill:</span>
+              <span class="capacity-count" id="capacityCount">0 / 60 drops (0.0 mL · 0%)</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="capacityFill" style="width:0%;"></div>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; flex-wrap:wrap; gap:6px;">
+              <span style="font-size:0.75rem; color:#94a3b8;">Calibrated for 10ml Bottle Volume</span>
+              <button class="btn-outline-gold" style="padding:4px 10px; font-size:0.75rem;" id="btnAutoBalance">
+                ✨ Auto-Balance to Target
+              </button>
+            </div>
+          </div>
+
+          <div class="lab-section-header">
+            <div>
+              <h3 style="font-family:var(--font-serif); color:#ffffff; font-size:1.15rem;">2. Tune Accord Drops</h3>
+              <p style="font-size:0.8rem; color:#cbd5e1;">Balance your formula across Top, Heart & Base notes.</p>
+            </div>
+            <div class="lab-filter-actions">
+              <button class="btn-outline-gold" style="padding:6px 12px; font-size:0.78rem;" id="btnToggleZeroDrops">
+                👁️ Hide 0-Drop Notes
+              </button>
+              <button class="btn-ghost" id="btnResetFormula">Clear All</button>
+            </div>
+          </div>
+
+          <div id="labSteppersContainer">
+            <!-- Rendered via JS -->
+          </div>
+
+          <div style="margin-top:20px; text-align:center;">
+            <button class="btn-gold" onclick="window.koyoApp.switchTab('recipe');">
+              View 10ml Recipe & Blending Steps →
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Pyramid & Diagnostics Sidebar (Desktop) -->
+        <aside class="lab-sidebar">
+          <div class="glass-card pyramid-card">
+            <h3 style="font-family:var(--font-serif); color:var(--gold-light); font-size:1.12rem; margin-bottom:4px;">
+              Olfactory Pyramid
+            </h3>
+            <p style="font-size:0.76rem; color:#94a3b8;">Dynamic Volatility & Evaporation Balance</p>
+
+            <div class="pyramid-visual-container">
+              <div class="pyramid-tier top" id="pyramidTop">
+                <span class="tier-label">Top: 0%</span>
+              </div>
+              <div class="pyramid-tier heart" id="pyramidHeart">
+                <span class="tier-label">Heart: 0%</span>
+              </div>
+              <div class="pyramid-tier base" id="pyramidBase">
+                <span class="tier-label">Base: 0%</span>
+              </div>
+            </div>
+
+            <!-- Diagnostics Message -->
+            <div class="diagnostic-box" id="diagnosticBox">
+              <div class="diagnostic-title">✨ Analyzing Formula...</div>
+              <p class="diagnostic-desc">Add drops to see live perfumer feedback.</p>
+            </div>
+
+            <!-- 10ml Bottle Specs (Pure Volume in mL) -->
+            <div class="bottle-stats-grid">
+              <div class="stat-item">
+                <div class="stat-val" id="statTotalDrops">0 drops</div>
+                <div class="stat-lbl">Fragrance Oil</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-val" id="statConcentration">0%</div>
+                <div class="stat-lbl">Concentration</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-val" id="statOilVol">0.0 mL</div>
+                <div class="stat-lbl">Oil Volume</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-val" id="statEthanol">10.0 mL</div>
+                <div class="stat-lbl">Ethanol (q.s.)</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Floating Mobile Bottom Trigger Bar (Lab Tab Only) -->
+    <div class="mobile-pyramid-floating-bar" id="mobilePyramidBar">
+      <div style="font-size:0.84rem; font-weight:700; color:var(--gold-light);">
+        <span id="mobileSummaryText">0/60d · 0% (0.0mL)</span>
+      </div>
+      <button class="btn-gold" style="padding:6px 14px; font-size:0.8rem;" id="btnOpenPyramidDrawer">
+        🧪 View Pyramid ⌃
+      </button>
+    </div>
+
+    <!-- Mobile Slide-Up Drawer Overlay & Sheet -->
+    <div class="mobile-drawer-overlay" id="mobileDrawerOverlay"></div>
+    <div class="mobile-drawer-sheet" id="mobileDrawerSheet">
+      <div class="mobile-drawer-handle"></div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <h3 style="font-family:var(--font-serif); color:#ffffff; font-size:1.15rem;">Olfactory Balance & Specs</h3>
+        <button class="btn-ghost" id="btnCloseMobileDrawer" style="padding:4px 8px;">✕ Close</button>
+      </div>
+      <div id="mobileDrawerContent">
+        <!-- Cloned live pyramid & specs -->
+      </div>
+    </div>
+
+    <!-- TAB 4: 10ml Recipe Sheet & Blending Guide -->
+    <section class="tab-panel" id="tab-recipe">
+      <div class="section-hero">
+        <span class="hero-tag">Official Workshop Formulation</span>
+        <h2 class="hero-title">Your 10ml Custom Formula Sheet</h2>
+        <p class="hero-desc">
+          Take this exact drop formula to your workshop station. Follow the numbered steps to pipette, blend, fill, and cap your bespoke fragrance bottle.
+        </p>
+      </div>
+
+      <div id="recipeContainer">
+        <!-- Rendered via JS -->
+      </div>
+
+      <div style="max-width:800px; margin:20px auto 0; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+        <button class="btn-gold" id="btnPrintRecipe">
+          🖨️ Print / Save Recipe Sheet
+        </button>
+        <button class="btn-outline-gold" onclick="window.koyoApp.switchTab('label');">
+          Design Bottle Sticker Label →
+        </button>
+      </div>
+    </section>
+
+    <!-- TAB 5: Bottle Label Studio & Thermal Printer -->
+    <section class="tab-panel" id="tab-label">
+      <div class="section-hero">
+        <span class="hero-tag">Luxury Bottle Label Studio</span>
+        <h2 class="hero-title">Craft Your Custom Bottle Sticker</h2>
+        <p class="hero-desc">
+          Personalize your perfume sticker for your 10ml glass bottle (55mm width x 30mm height max). Toggle elements on/off to your liking.
+        </p>
+      </div>
+
+      <div class="label-studio-layout">
+        <!-- Controls Column -->
+        <div class="glass-card label-controls-card">
+          <h3 style="font-family:var(--font-serif); color:#ffffff; font-size:1.15rem; margin-bottom:12px;">
+            Sticker Details & Customization
+          </h3>
+
+          <div class="form-group">
+            <label class="form-label" for="inputPerfumeName">Perfume Name</label>
+            <input type="text" class="form-input" id="inputPerfumeName" value="L'ÉTOILE NOIRE" maxlength="28">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="inputCreatorName">Creator Name / Byline</label>
+            <input type="text" class="form-input" id="inputCreatorName" value="WORKSHOP GUEST" maxlength="32">
+          </div>
+
+          <!-- Customizable Element Checkboxes -->
+          <div class="checkbox-toggle-grid">
+            <label class="checkbox-toggle-item">
+              <input type="checkbox" id="chkShowLogo" checked>
+              <span>Show KOYO Logo</span>
+            </label>
+            <label class="checkbox-toggle-item">
+              <input type="checkbox" id="chkShowSubtitle">
+              <span>Show Byline / Name</span>
+            </label>
+            <label class="checkbox-toggle-item">
+              <input type="checkbox" id="chkShowConcentration" checked>
+              <span>Show 10ML & Concentration</span>
+            </label>
+            <label class="checkbox-toggle-item">
+              <input type="checkbox" id="chkShowDate">
+              <span>Show Creation Date</span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Select Luxury Label Style</label>
+            <div class="style-selector-grid">
+              <button class="style-pill-btn active" data-style="pure_bar">
+                <b>Pure Bar</b><br><span style="font-size:0.68rem; color:#94a3b8;">Solid Black Bar</span>
+              </button>
+              <button class="style-pill-btn" data-style="noir_split">
+                <b>Noir Split</b><br><span style="font-size:0.68rem; color:#94a3b8;">50/50 Inverted</span>
+              </button>
+              <button class="style-pill-btn" data-style="haute_maison">
+                <b>Haute Maison</b><br><span style="font-size:0.68rem; color:#94a3b8;">Classic Serif</span>
+              </button>
+              <button class="style-pill-btn" data-style="double_line">
+                <b>Double Line</b><br><span style="font-size:0.68rem; color:#94a3b8;">Minimalist Geo</span>
+              </button>
+              <button class="style-pill-btn" data-style="minimal_float">
+                <b>Pure Minimal</b><br><span style="font-size:0.68rem; color:#94a3b8;">Border-Free</span>
+              </button>
+            </div>
+          </div>
+
+          <div style="background:rgba(0,0,0,0.45); padding:12px; border-radius:10px; border:1px solid var(--border-subtle); margin-top:16px;">
+            <div style="font-size:0.8rem; color:var(--gold-light); font-weight:700; margin-bottom:4px;">
+              📐 10ml Bottle Sticker Specifications:
+            </div>
+            <p style="font-size:0.76rem; color:#cbd5e1; line-height:1.4;">
+              • Dimensions: <b>55mm width × 30mm height</b> (384 × 240 px)<br>
+              • Thermal roll width: 58mm (203 DPI monochrome)
+            </p>
+          </div>
+        </div>
+
+        <!-- Preview Column -->
+        <div class="label-preview-container">
+          <div class="canvas-mockup-frame">
+            <canvas id="labelCanvas" width="384" height="240"></canvas>
+          </div>
+
+          <div class="label-actions-row">
+            <button class="btn-gold pulse-gold" id="btnPrintLabel" style="width:100%;">
+              🖨️ 1-Tap Print Sticker (Workshop Printer)
+            </button>
+            <button class="btn-outline-gold" id="btnDownloadLabel" style="width:100%;">
+              💾 Download Label PNG (55×30mm)
+            </button>
+            <div id="printStatusText" style="text-align:center; font-size:0.8rem; color:#94a3b8; min-height:20px; margin-top:4px;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal: Workshop QR Code -->
+  <div class="modal-overlay" id="qrModal">
+    <div class="modal-box">
+      <button class="modal-close-btn" id="btnCloseQR">&times;</button>
+      <div style="text-align:center;">
+        <span class="hero-tag">Instant Mobile Access</span>
+        <h3 style="font-family:var(--font-serif); font-size:1.35rem; color:#ffffff; margin-bottom:8px;">
+          Scan on Phone or Tablet
+        </h3>
+        <p style="font-size:0.84rem; color:#cbd5e1; margin-bottom:16px;">
+          Scan with your smartphone camera to access the formulation studio directly on your device.
+        </p>
+
+        <div id="qrCodeDisplay" style="display:flex; justify-content:center; margin-bottom:16px;">
+          <!-- QR Code Image Rendered Here -->
+        </div>
+
+        <div style="background:rgba(0,0,0,0.5); padding:10px; border-radius:8px; border:1px solid var(--border-medium); word-break:break-all; font-family:var(--font-mono); font-size:0.82rem; color:var(--gold-light); font-weight:700;" id="qrUrlDisplay">
+          Loading URL...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/formula-engine.js"></script>
+  <script src="js/label-canvas.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
