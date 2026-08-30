@@ -1129,12 +1129,14 @@ class KoyoApp {
     const urlDisplay = document.getElementById("qrUrlDisplay");
     if (!qrContainer) return;
 
-    const currentUrl = window.location.href;
+    const currentUrl = window.location.origin.includes("vercel.app") 
+      ? window.location.origin 
+      : "https://koyo-atelier.vercel.app";
+
     if (urlDisplay) urlDisplay.textContent = currentUrl;
 
-    const qrApiUrl = `https://quickchart.io/qr?text=${encodeURIComponent(currentUrl)}&size=240&margin=1`;
     qrContainer.innerHTML = `
-      <img src="${qrApiUrl}" alt="Workshop QR Code" style="width:220px; height:220px; border-radius:12px; background:#fff; padding:10px; box-shadow:0 4px 20px rgba(0,0,0,0.5);">
+      <img src="assets/app_qr_code.png" alt="KOYO Atelier QR Code" style="width:220px; height:220px; border-radius:12px; background:#fff; padding:10px; box-shadow:0 4px 20px rgba(0,0,0,0.5); object-fit:contain;">
     `;
   }
 
