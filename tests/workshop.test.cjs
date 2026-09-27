@@ -94,3 +94,28 @@ test('both old and new fixed recipes preserve progress after the target change',
  }
  const state=initialState();state.bottles[1].amounts={vanilla:9.6};assert.equal(engine.normalize(state).bottles[1].amounts.vanilla,9.6);
 });
+
+test('starting suggestion gives seven zero-weight selections a complete, repeatable recipe',()=>{
+ const selected=Object.fromEntries(['fresh-citrus','pineapple','lotus','hedione','vanilla','white-musk','oud'].map(id=>[id,0]));
+ const before=JSON.stringify(selected),s=engine.startingRecipe(selected);
+ assert.deepEqual(Object.keys(s.amounts).sort(),Object.keys(selected).sort());assert.equal(engine.analyzeFormula(s.amounts).ready,true);
+ assert.equal(Object.values(s.drops).reduce((a,b)=>a+b,0),30);assert.ok(Object.values(s.drops).every(n=>Number.isInteger(n)&&n>=1));
+ for(const id of Object.keys(selected))assert.ok(Math.abs(s.amounts[id]-s.drops[id]/3)<.011);
+ assert.equal(Object.values(s.drops).reduce((a,b)=>a+b*9,0),270);assert.equal(JSON.stringify(selected),before);
+ assert.ok(s.drops.oud<s.drops['white-musk']);
+});
+test('starting suggestions work for one through seventeen notes and do not use entered amounts',()=>{
+ for(let n=1;n<=17;n++){
+  const zero=Object.fromEntries(materials.slice(0,n).map(m=>[m.id,0]));
+  const existing=Object.fromEntries(materials.slice(0,n).map(m=>[m.id,1]));
+  const s=engine.startingRecipe(zero);assert.deepEqual(s,engine.startingRecipe(existing));
+  assert.equal(Object.keys(s.amounts).length,n);assert.equal(engine.analyzeFormula(s.amounts).totalCents,1000);
+  assert.equal(Object.values(s.drops).reduce((a,b)=>a+b,0),30);
+ }
+ assert.throws(()=>engine.startingRecipe({}),/Choose some notes/);
+});
+test('material cards lead with concise sensory descriptions and avoid old guarantees',()=>{
+ for(const m of materials){assert.ok(m.shortDescription.length<90,m.name);assert.ok(m.fullDescription.length>m.shortDescription.length);}
+ const copy=materials.map(m=>[m.shortDescription,m.fullDescription,m.perfumerTip].join(' ')).join(' ');
+ assert.doesNotMatch(copy,/unmatched|pure Madagascar|pheromon|incredible projection|ultimate natural|master fixative/i);
+});

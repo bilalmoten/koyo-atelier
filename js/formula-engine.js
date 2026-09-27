@@ -54,6 +54,21 @@
       rows.forEach(row => { if (remainder > 0) { row.n++; remainder--; } });
       return Object.fromEntries(rows.map(r => [r.id, r.n / 100]));
     }
+    startingRecipe(selected) {
+      const ids=Object.keys(this.cleanAmounts(selected));
+      if(!ids.length)throw new Error('Choose some notes first.');
+      // Creative starting weights, not material limits or host-approved formulas.
+      // Give darker accents a smaller share; never introduce an unselected material.
+      const weights={'fresh-citrus':3,pineapple:3,'black-currant':2,lotus:3,'white-floral':3,'rose-honey':2,hedione:4,marshmallow:2,gourmand:2,vanilla:3,'iso-e-super':4,'white-musk':4,galaxolide:3,'ethylene-brassylate':3,leather:1,tobacco:1,oud:1};
+      // Thirty whole drops make a small, repeatable ratio with every chosen note.
+      const remaining=30-ids.length,totalWeight=ids.reduce((sum,id)=>sum+(weights[id]||2),0);
+      const parts=ids.map(id=>{const raw=(weights[id]||2)/totalWeight*remaining;return {id,n:1+Math.floor(raw),remainder:raw-Math.floor(raw)};});
+      let spare=30-parts.reduce((sum,p)=>sum+p.n,0);
+      parts.sort((a,b)=>b.remainder-a.remainder||a.id.localeCompare(b.id));
+      for(const p of parts)if(spare>0){p.n++;spare--;}
+      const drops=Object.fromEntries(parts.map(p=>[p.id,p.n]));
+      return {amounts:this.scale(drops),drops,totalDrops:30,rounds:10};
+    }
     compare(before = {}, after = {}) {
       return this.materials.map(a => ({ id: a.id, name: a.name,
         before: Number(before[a.id]) || 0, after: Number(after[a.id]) || 0,

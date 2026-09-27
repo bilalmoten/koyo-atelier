@@ -71,6 +71,7 @@ class KoyoApp {
       case 'clear': this.clearBottle(); break;
       case 'copy': this.copyBottle(); break;
       case 'resize': this.resize(); break;
+      case 'suggest': this.suggestAmounts(); break;
       case 'confirm': { const fn=this.pending; this.dialog.close(); this.pending=null; fn?.(); break; }
       case 'close-dialog': this.dialog.close(); break;
       case 'undo': this.undoChange(); break;
@@ -107,7 +108,7 @@ class KoyoApp {
     if(Object.hasOwn(this.bottle.amounts,id))return;
     this.undo=null;this.bottle.amounts[id]=0;this.save();this.render();
     if(this.dialog.open && document.getElementById('picker-list')) this.renderPickerList();
-    this.toast(`${ACCORDS_DATA.find(a=>a.id===id).name} selected. Set its grams in My blend.`);
+    this.toast(`${ACCORDS_DATA.find(a=>a.id===id).name} selected. Set amounts or try a suggestion in My blend.`);
   }
   removeNote(id) {
     if(!this.editable())return;
@@ -153,6 +154,17 @@ class KoyoApp {
         this.remember();this.bottle.amounts=result;this.save();this.render();this.toast('Recipe resized to exactly 10 g.',true);
       },true);
     } catch(err){this.toast(err.message);}
+  }
+  suggestAmounts() {
+    if(!this.editable()||this.hasInvalidInput())return;
+    try {
+      const suggestion=this.engine.startingRecipe(this.bottle.amounts);
+      const rows=this.engine.analyzeFormula(suggestion.amounts).rows;
+      const hasAmounts=Object.values(this.bottle.amounts).some(g=>g>0);
+      this.confirm('A starting ratio for your notes',`<p>A suggested starting point using only your ${rows.length} selected ${rows.length===1?'note':'notes'}. Adjust it to your taste.</p><div class="suggestion-table"><div class="suggestion-heading"><span>Note</span><span>Small mix<br><strong>30 drops</strong></span><span>Full recipe<br><strong>10 g</strong></span></div>${rows.map(r=>`<div><span>${esc(r.name)}</span><b>${suggestion.drops[r.id]} ${suggestion.drops[r.id]===1?'drop':'drops'}</b><b>${money(r.grams)} g</b></div>`).join('')}</div><details class="guide small-mix-guide"><summary>Try a little before filling</summary><div><p>Use the small-mix column for one 30-drop round (about 1 g). Mix and smell.</p><p>Like it? To finish this same blend, add only these extra drops:</p><div class="resize-list">${rows.map(r=>`<div><span>${esc(r.name)}</span><b>+${suggestion.drops[r.id]*9} drops</b></div>`).join('')}</div><p>That is <strong>270 extra drops</strong>, about 300 in total including your first mix. These top-ups apply only if you keep this ratio.</p><p>Continue by this drop ratio, or weigh the full recipe from an empty bottle. Drop counts are approximate; the lab shows the full 10 g totals.</p></div></details>${hasAmounts?'<p class="footnote">Applying this suggestion replaces your planned amounts. You can undo it. It does not change anything already poured.</p>':''}`, 'Use full recipe in my blend',()=>{
+        this.remember();this.bottle.amounts=suggestion.amounts;this.save();this.render();this.toast('Starting amounts added to your 10 g recipe.',true);
+      },true);
+    }catch(err){this.toast(err.message);}
   }
   openDialog(title,html) {
     this.dialogOpener=document.activeElement;document.getElementById('dialog-title').textContent=title;
@@ -238,7 +250,7 @@ class KoyoApp {
     document.getElementById('library-count').textContent=`${notes.length} materials · selecting for Bottle ${this.state.active}`;
     document.getElementById('library-grid').innerHTML=notes.length?notes.map(a=>{
       const selected=Object.hasOwn(this.amounts,a.id),locked=this.bottle.mode!=='plan';
-      return `<article class="material"><div class="material-head"><span class="role"><i class="dot" style="background:${a.color}"></i>${roleLabel(a.role)}</span><span class="muted">${esc(a.family)}</span></div><h3>${esc(a.name)}</h3><p class="description">${esc(a.fullDescription)}</p><details><summary>Blending tip & pairings</summary><p>${esc(a.perfumerTip)}</p><p>Pairs with: ${a.pairsWith.map(esc).join(', ')}.</p></details><button class="${selected?'selected':''}" data-action="add" data-id="${a.id}" ${selected||locked?'disabled':''}>${selected?'✓ Selected':locked?'Recipe fixed for weighing':`+ Choose for Bottle ${this.state.active}`}</button></article>`;
+      return `<article class="material"><div class="material-head"><span class="role"><i class="dot" style="background:${a.color}"></i>${roleLabel(a.role)}</span><span class="muted">${esc(a.family)}</span></div><h3>${esc(a.name)}</h3><p class="description">${esc(a.shortDescription)}</p><details><summary>More about this note</summary><p>${esc(a.fullDescription)}</p><p>${esc(a.perfumerTip)}</p><p>Pairs with: ${a.pairsWith.map(esc).join(', ')}.</p></details><button class="${selected?'selected':''}" data-action="add" data-id="${a.id}" ${selected||locked?'disabled':''}>${selected?'✓ Selected':locked?'Recipe fixed for weighing':`+ Choose for Bottle ${this.state.active}`}</button></article>`;
     }).join(''):'<div class="panel"><h3>No notes found</h3><p class="muted">Try a material name or clear the search and select All 17.</p></div>';
   }
   renderLab() {
@@ -253,7 +265,7 @@ class KoyoApp {
     } else {
       html=`<div class="toolbar"><h2>Your selected notes <span class="muted">(${ids.length})</span></h2><label>+ / − step<select id="gram-step" aria-label="Weight adjustment step">${[0.01,0.05,0.1].map(g=>`<option value="${g}" ${g===this.state.step?'selected':''}>${money(g)} g</option>`).join('')}</select></label></div><div class="amount-list">${ids.map(id=>{
         const a=ACCORDS_DATA.find(a=>a.id===id);return `<article class="amount-row" id="row-${id}"><div class="amount-meta"><span class="role"><i class="dot" style="background:${a.color}"></i>${roleLabel(a.role)}</span><h3>${esc(a.name)}</h3><p class="amount-stats" data-stats="${id}"></p></div><div class="amount-controls"><button data-action="minus" data-id="${id}" aria-label="Decrease ${esc(a.name)}">−</button><label class="weight-input"><span class="sr-only">${esc(a.name)} grams</span><input id="weight-${id}" data-weight="${id}" type="number" min="0" max="100" step="0.01" inputmode="decimal" value="${money(b.amounts[id])}" aria-describedby="error-${id}" aria-invalid="false"><span>g</span></label><button data-action="plus" data-id="${id}" aria-label="Increase ${esc(a.name)}">+</button><button class="remove" data-action="remove" data-id="${id}" aria-label="Remove ${esc(a.name)}">×</button></div><p class="input-error" id="error-${id}" hidden>Enter a weight from 0 to 100 g, with up to two decimal places.</p></article>`;
-      }).join('')}</div><div class="actions"><button data-action="picker">+ Add another note</button>${b.id===2?'<button data-action="copy">Copy Bottle 1</button>':''}</div><div id="plan-status" style="margin-top:20px"></div><div class="actions"><button data-action="analyse">Analyse my blend</button><button data-action="resize">Fit recipe to 10 g</button><button class="primary" data-action="tab" data-id="recipe">Review & weigh</button></div><div id="blend-guide"></div><div class="actions"><button class="quiet danger" data-action="clear">Clear this recipe</button></div>`;
+      }).join('')}</div><div class="actions"><button data-action="picker">+ Add another note</button>${b.id===2?'<button data-action="copy">Copy Bottle 1</button>':''}</div><div class="actions"><button class="primary" data-action="suggest">Suggest starting amounts</button></div><div id="plan-status" style="margin-top:20px"></div><div class="actions"><button data-action="analyse">Analyse my blend</button><button data-action="resize">Fit recipe to 10 g</button><button class="primary" data-action="tab" data-id="recipe">Review & weigh</button></div><div id="blend-guide"></div><div class="actions"><button class="quiet danger" data-action="clear">Clear this recipe</button></div>`;
     }
     document.getElementById('lab-content').innerHTML=html;
     this.refreshNumbers();
@@ -262,7 +274,7 @@ class KoyoApp {
     const a=this.engine.analyzeFormula(this.amounts);
     document.querySelectorAll('[data-stats]').forEach(el=>{const g=this.bottle.amounts[el.dataset.stats]||0;el.textContent=`${a.totalGrams?(g/a.totalGrams*100).toFixed(1):'0.0'}% of blend · est. ~${Math.round(g*30)} drops`;});
     const status=document.getElementById('plan-status');
-    if(status){const zero=Object.values(this.bottle.amounts).some(g=>g===0);status.innerHTML=`<div class="notice ${a.remaining<0?'warning':''}">${this.hasInvalidInput()?'Correct the highlighted weight before continuing.':zero?'Set a weight for each selected note, or remove it.':a.remaining<0?`Your plan is ${money(-a.remaining)} g over the target. Reduce amounts or resize the recipe before weighing.`:a.remaining>0?`${money(a.remaining)} g left to plan. Add more, adjust weights, or resize the recipe.`:'Your plan totals 10 g. Review the recipe when you’re ready to weigh.'}</div>`;}
+    if(status){const zero=Object.values(this.bottle.amounts).some(g=>g===0);status.innerHTML=`<div class="notice ${a.remaining<0?'warning':''}">${this.hasInvalidInput()?'Correct the highlighted weight before continuing.':zero?'Use “Suggest starting amounts” to get a ratio, or enter your own weights.':a.remaining<0?`Your plan is ${money(-a.remaining)} g over the target. Reduce amounts or resize the recipe before weighing.`:a.remaining>0?`${money(a.remaining)} g left to plan. Add more, adjust weights, or resize the recipe.`:'Your plan totals 10 g. Review the recipe when you’re ready to weigh.'}</div>`;}
     const guide=document.getElementById('blend-guide');
     if(guide)guide.innerHTML=this.comparisonHTML();
     this.renderHeader();this.renderSummary();if(this.tab==='recipe')this.renderRecipe();
