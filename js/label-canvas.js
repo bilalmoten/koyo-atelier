@@ -1,22 +1,21 @@
 /**
- * KOYO Perfume Atelier - Dynamic Content-Hugging Label Canvas Engine
- * Generates razor-sharp monochrome labels calibrated for 10ml bottles (384px width).
- * Features:
- * - Content-hugging dynamic height (shrinks when info is less, zero wasted paper)
- * - Bold KOYO logo (wide, prominent, high contrast)
- * - Large bold typography matching finalized accord label design
- * - 4px solid luxury border
- * - Direct cloud relay & local print support
+ * KOYO Perfume Atelier - Label Canvas Engine (10ml Bottle · Option 3 Modern Niche Capsule Edition)
+ * Renders luxury UV DTF & thermal print sticker labels for 10ml oil bottles.
+ *
+ * Design: Option 3 "Modern Niche Capsule"
+ * - Deep black background (#0A0A0C)
+ * - 4px crisp rounded white outer frame
+ * - Pure white official KOYO logo
+ * - Silver-golden pill capsule (#DFCA9B) framing the perfume name
+ * - Silver-golden note subtitle: "10ML PURE PERFUME OIL · BOTTLE 1 OF 2"
  */
-
-const DEFAULT_CLOUD_RELAY = "https://136e-59-103-89-96.ngrok-free.app";
 
 class LabelCanvasEngine {
   constructor(canvasElement) {
     this.canvas = canvasElement;
     this.ctx = canvasElement.getContext("2d");
-    this.width = 384;  // 58mm roll printable width at 203 DPI
-    this.height = 165; // Dynamic content-hugging default
+    this.width = 768;  // High-definition canvas (scaled 48mm x 30mm)
+    this.height = 480;
     this.canvas.width = this.width;
     this.canvas.height = this.height;
     this.logoImg = null;
@@ -32,14 +31,13 @@ class LabelCanvasEngine {
 
   loadLogo() {
     this.logoImg = new Image();
-    // Prefer bold logo asset
-    this.logoImg.src = "assets/koyo_logo_bold.png";
+    this.logoImg.src = "assets/koyo_logo_black.png";
     this.logoImg.onload = () => {
       if (this.currentOptions) this.render(this.currentOptions);
     };
     this.logoImg.onerror = () => {
       const alt = new Image();
-      alt.src = "assets/koyo_logo_black.png";
+      alt.src = "assets/koyo-logo.png";
       alt.onload = () => {
         this.logoImg = alt;
         if (this.currentOptions) this.render(this.currentOptions);
@@ -48,428 +46,181 @@ class LabelCanvasEngine {
   }
 
   /**
-   * Calculate exact dynamic height to hug all active contents
-   */
-  calculateDynamicHeight(options) {
-    const {
-      showLogo = true,
-      showSubtitle = false,
-      showConcentration = true,
-      showDate = false,
-      creatorName = "",
-      concentrationLabel = "",
-      dateStr = ""
-    } = options;
-
-    let h = 16; // Top & bottom inset margins
-
-    // Logo height
-    if (showLogo) {
-      h += 54 + 8; // Logo + bottom margin
-    } else {
-      h += 6;
-    }
-
-    // Name Bar height
-    h += 56; // Bar height
-
-    // Subtitle / Footer items
-    let footerLines = 0;
-    if (showSubtitle && creatorName && creatorName.trim()) footerLines++;
-    if (showConcentration && concentrationLabel && concentrationLabel.trim()) footerLines++;
-    if (showDate && dateStr && dateStr.trim()) footerLines++;
-
-    if (footerLines > 0) {
-      h += footerLines * 26 + 10;
-    } else {
-      h += 12; // Bottom padding
-    }
-
-    return Math.max(130, Math.round(h));
-  }
-
-  /**
-   * Main Render function (Content-Hugging)
+   * Main Render function (Option 3: Modern Niche Capsule)
    */
   render(options = {}) {
     this.currentOptions = { ...options };
 
     const {
-      style = "pure_bar",
-      perfumeName = "L'ÉTOILE NOIRE",
+      perfumeName = "OUD ROYALE",
+      bottleNum = 1,
+      bottleSubtitle = "10ML PURE PERFUME OIL",
+      showBottleBadge = true,
       creatorName = "WORKSHOP GUEST",
-      concentrationLabel = "EXTRAIT DE PARFUM · 10 ML",
-      showLogo = true,
-      showSubtitle = false,
-      showConcentration = true,
-      showDate = false,
-      dateStr = ""
+      customType = ""
     } = options;
 
-    const cleanName = (perfumeName && perfumeName.trim()) ? perfumeName.trim() : "BESPOKE FORMULA";
-    const cleanCreator = (creatorName && creatorName.trim()) ? creatorName.trim() : "WORKSHOP GUEST";
-    const cleanConc = (concentrationLabel && concentrationLabel.trim()) ? concentrationLabel.trim() : "10 ML";
-
-    const renderOpts = {
-      ...options,
-      perfumeName: cleanName,
-      creatorName: cleanCreator,
-      concentrationLabel: cleanConc
-    };
-
-    // Calculate dynamic hugging height
-    const calculatedHeight = this.calculateDynamicHeight(renderOpts);
-    this.height = calculatedHeight;
-    this.canvas.width = this.width;
-    this.canvas.height = this.height;
-
     const ctx = this.ctx;
     const w = this.width;
     const h = this.height;
 
-    // Reset canvas to crisp solid white
-    ctx.fillStyle = "#ffffff";
+    ctx.clearRect(0, 0, w, h);
+
+    // 1. Deep Black Background
+    ctx.fillStyle = "#0A0A0C";
     ctx.fillRect(0, 0, w, h);
-    ctx.fillStyle = "#000000";
-    ctx.strokeStyle = "#000000";
 
-    switch (style) {
-      case "pure_bar":
-        this.renderPureBar(renderOpts);
-        break;
-      case "noir_split":
-        this.renderNoirSplit(renderOpts);
-        break;
-      case "haute_maison":
-        this.renderHauteMaison(renderOpts);
-        break;
-      case "double_line":
-        this.renderDoubleLine(renderOpts);
-        break;
-      case "minimal_float":
-        this.renderMinimalFloat(renderOpts);
-        break;
-      default:
-        this.renderPureBar(renderOpts);
-    }
-  }
-
-  fitText(text, fontPrefix, maxFontSize, minFontSize, fontSuffix, maxWidth) {
-    let size = maxFontSize;
-    this.ctx.font = `${fontPrefix} ${size}px ${fontSuffix}`;
-    while (this.ctx.measureText(text).width > maxWidth && size > minFontSize) {
-      size -= 1;
-      this.ctx.font = `${fontPrefix} ${size}px ${fontSuffix}`;
-    }
-    return size;
-  }
-
-  /**
-   * Style 1: Pure Minimalist Name Bar (Exact Accord Style)
-   * Bold KOYO Logo, 4px Solid Border, 56px Solid Black Name Bar, Big Bold Fonts.
-   */
-  renderPureBar({ perfumeName, creatorName, concentrationLabel, showLogo, showSubtitle, showConcentration, showDate, dateStr }) {
-    const ctx = this.ctx;
-    const w = this.width;
-    const h = this.height;
-
-    // 1. Thick 4px Outer Border (matching accord label)
-    const inset = 4;
+    // 2. White Rounded Outer Frame (4px stroke, 24px radius)
+    ctx.strokeStyle = "#FFFFFF";
     ctx.lineWidth = 4;
-    ctx.strokeRect(inset, inset, w - inset * 2, h - inset * 2);
+    ctx.beginPath();
+    ctx.roundRect(16, 16, w - 32, h - 32, 24);
+    ctx.stroke();
 
-    let currentY = 10;
-
-    // 2. Bold Wide KOYO Logo
-    if (showLogo) {
-      this.drawBoldLogoCentered(currentY, 52, 280);
-      currentY += 58;
-    } else {
-      currentY += 8;
-    }
-
-    // 3. Solid Black Name Bar
-    const barMargin = 8;
-    const barH = 56;
-    const barW = w - barMargin * 2;
-    const barY = currentY;
-
-    ctx.fillStyle = "#000000";
-    ctx.fillRect(barMargin, barY, barW, barH);
-
-    // 4. Bold Perfume Name (White on Black)
-    ctx.fillStyle = "#ffffff";
-    const nameText = perfumeName.toUpperCase();
-    this.fitText(nameText, "900", 27, 14, "'Cinzel', 'Outfit', 'Futura', Helvetica, sans-serif", barW - 20);
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(nameText, w / 2, barY + barH / 2 + 1);
-
-    // 5. Clean Bold Footer Lines (NO divider line, matching accord label)
-    ctx.fillStyle = "#000000";
-    ctx.textBaseline = "middle";
-
-    let footerY = barY + barH + 16;
-
-    if (showSubtitle && creatorName) {
-      this.fitText(creatorName.toUpperCase(), "bold", 15, 10, "'Outfit', 'Futura', sans-serif", w - 30);
-      ctx.fillText(creatorName.toUpperCase(), w / 2, footerY);
-      footerY += 22;
-    }
-
-    if (showConcentration && concentrationLabel) {
-      this.fitText(concentrationLabel.toUpperCase(), "bold", 14, 9, "'Outfit', monospace", w - 30);
-      ctx.fillText(concentrationLabel.toUpperCase(), w / 2, footerY);
-      footerY += 22;
-    }
-
-    if (showDate && dateStr) {
-      ctx.font = "bold 12px 'Outfit', monospace";
-      ctx.fillText(dateStr.toUpperCase(), w / 2, footerY);
-    }
-  }
-
-  /**
-   * Style 2: Noir Split
-   */
-  renderNoirSplit({ perfumeName, creatorName, concentrationLabel, showLogo, showSubtitle, showConcentration, showDate, dateStr }) {
-    const ctx = this.ctx;
-    const w = this.width;
-    const h = this.height;
-
-    const splitY = showLogo ? 68 : 20;
-
-    if (showLogo) {
-      this.drawBoldLogoCentered(10, 48, 250);
-    }
-
-    ctx.fillStyle = "#000000";
-    ctx.fillRect(0, splitY, w, h - splitY);
-
-    ctx.fillStyle = "#ffffff";
-    const nameText = perfumeName.toUpperCase();
-    this.fitText(nameText, "900", 26, 13, "'Cinzel', 'Outfit', sans-serif", w - 28);
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(nameText, w / 2, splitY + 32);
-
-    let subY = splitY + 58;
-    if (showSubtitle && creatorName) {
-      this.fitText(creatorName.toUpperCase(), "bold", 13, 9, "'Outfit', sans-serif", w - 30);
-      ctx.fillText(creatorName.toUpperCase(), w / 2, subY);
-      subY += 20;
-    }
-
-    let meta = "";
-    if (showConcentration && concentrationLabel) meta += concentrationLabel.toUpperCase();
-    if (showDate && dateStr) meta += (meta ? " · " : "") + dateStr;
-
-    if (meta) {
-      this.fitText(meta, "bold", 12, 9, "'Outfit', monospace", w - 30);
-      ctx.fillText(meta, w / 2, subY);
-    }
-  }
-
-  /**
-   * Style 3: Haute Maison
-   */
-  renderHauteMaison({ perfumeName, creatorName, concentrationLabel, showLogo, showSubtitle, showConcentration, showDate, dateStr }) {
-    const ctx = this.ctx;
-    const w = this.width;
-    const h = this.height;
-
-    ctx.lineWidth = 2.5;
-    ctx.strokeRect(6, 6, w - 12, h - 12);
-    ctx.lineWidth = 0.8;
-    ctx.strokeRect(10, 10, w - 20, h - 20);
-
-    let topY = 14;
-    if (showLogo) {
-      this.drawBoldLogoCentered(topY, 44, 240);
-      topY += 50;
-    } else {
-      topY += 10;
-    }
-
-    ctx.fillStyle = "#000000";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-
-    const nameText = perfumeName.toUpperCase();
-    this.fitText(nameText, "900", 25, 13, "'Cinzel', 'Playfair Display', Georgia, serif", w - 40);
-    ctx.fillText(nameText, w / 2, topY + 22);
-
-    let currentY = topY + 48;
-
-    if (showSubtitle && creatorName) {
-      ctx.font = "italic 13px 'Playfair Display', serif";
-      ctx.fillText(creatorName, w / 2, currentY);
-      currentY += 20;
-    }
-
-    let meta = "";
-    if (showConcentration && concentrationLabel) meta += concentrationLabel.toUpperCase();
-    if (showDate && dateStr) meta += (meta ? " · " : "") + dateStr;
-
-    if (meta) {
-      ctx.font = "bold 12px 'Outfit', sans-serif";
-      ctx.fillText(meta, w / 2, currentY);
-    }
-  }
-
-  /**
-   * Style 4: Double Hairline
-   */
-  renderDoubleLine({ perfumeName, creatorName, concentrationLabel, showLogo, showSubtitle, showConcentration, showDate, dateStr }) {
-    const ctx = this.ctx;
-    const w = this.width;
-    const h = this.height;
-
-    ctx.lineWidth = 3;
-    ctx.strokeRect(6, 6, w - 12, h - 12);
-    ctx.lineWidth = 1;
-    ctx.strokeRect(10, 10, w - 20, h - 20);
-
-    let topY = 14;
-    if (showLogo) {
-      this.drawBoldLogoCentered(topY, 46, 250);
-      topY += 52;
-    } else {
-      topY += 12;
-    }
-
-    ctx.fillStyle = "#000000";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-
-    const nameText = perfumeName.toUpperCase();
-    this.fitText(nameText, "900", 26, 13, "'Outfit', Helvetica, sans-serif", w - 40);
-    ctx.fillText(nameText, w / 2, topY + 22);
-
-    let currentY = topY + 48;
-
-    if (showSubtitle && creatorName) {
-      this.fitText(creatorName.toUpperCase(), "bold", 13, 9, "'Outfit', sans-serif", w - 30);
-      ctx.fillText(creatorName.toUpperCase(), w / 2, currentY);
-      currentY += 20;
-    }
-
-    let meta = "";
-    if (showConcentration && concentrationLabel) meta += concentrationLabel.toUpperCase();
-    if (showDate && dateStr) meta += (meta ? " · " : "") + dateStr;
-
-    if (meta) {
-      ctx.font = "bold 12px monospace";
-      ctx.fillText(meta, w / 2, currentY);
-    }
-  }
-
-  /**
-   * Style 5: Minimal Floating (Ultra clean with no outer border)
-   */
-  renderMinimalFloat({ perfumeName, creatorName, concentrationLabel, showLogo, showSubtitle, showConcentration, showDate, dateStr }) {
-    const ctx = this.ctx;
-    const w = this.width;
-    const h = this.height;
-
-    let topY = 14;
-    if (showLogo) {
-      this.drawBoldLogoCentered(topY, 52, 280);
-      topY += 58;
-    } else {
-      topY += 14;
-    }
-
-    ctx.fillStyle = "#000000";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-
-    const nameText = perfumeName.toUpperCase();
-    this.fitText(nameText, "900", 27, 14, "'Cinzel', 'Outfit', Georgia, serif", w - 30);
-    ctx.fillText(nameText, w / 2, topY + 24);
-
-    let currentY = topY + 52;
-
-    if (showSubtitle && creatorName) {
-      ctx.font = "italic 14px 'Playfair Display', serif";
-      ctx.fillText(creatorName, w / 2, currentY);
-      currentY += 22;
-    }
-
-    let meta = "";
-    if (showConcentration && concentrationLabel) meta += concentrationLabel.toUpperCase();
-    if (showDate && dateStr) meta += (meta ? " · " : "") + dateStr;
-
-    if (meta) {
-      ctx.font = "bold 12px monospace";
-      ctx.fillText(meta, w / 2, currentY);
-    }
-  }
-
-  /**
-   * Draw big bold KOYO logo with high prominence
-   */
-  drawBoldLogoCentered(topY, targetH, targetMaxW = 280) {
+    // 3. Pure White KOYO Logo
     if (this.logoImg && this.logoImg.complete && this.logoImg.naturalWidth > 0) {
+      const targetW = 330;
       const aspect = this.logoImg.naturalWidth / this.logoImg.naturalHeight;
-      let targetW = targetH * aspect;
-      if (targetW > targetMaxW) {
-        targetW = targetMaxW;
-        targetH = targetW / aspect;
-      }
-      const x = (this.width - targetW) / 2;
-      this.ctx.drawImage(this.logoImg, x, topY, targetW, targetH);
-    } else {
-      this.ctx.fillStyle = "#000000";
-      this.ctx.font = "900 28px 'Cinzel', Georgia, serif";
-      this.ctx.textAlign = "center";
-      this.ctx.textBaseline = "middle";
-      this.ctx.fillText("K O Y O", this.width / 2, topY + targetH / 2);
-    }
-  }
+      const targetH = Math.max(10, Math.round(targetW / aspect));
+      const lx = Math.round((w - targetW) / 2);
+      const ly = 42;
 
-  toDataURL() {
-    return this.canvas.toDataURL("image/png");
+      // Draw white silhouette of logo
+      const offCanvas = document.createElement("canvas");
+      offCanvas.width = targetW;
+      offCanvas.height = targetH;
+      const offCtx = offCanvas.getContext("2d");
+      offCtx.drawImage(this.logoImg, 0, 0, targetW, targetH);
+      offCtx.globalCompositeOperation = "source-in";
+      offCtx.fillStyle = "#FFFFFF";
+      offCtx.fillRect(0, 0, targetW, targetH);
+
+      ctx.drawImage(offCanvas, lx, ly);
+    } else {
+      // Fallback text logo
+      ctx.fillStyle = "#FFFFFF";
+      ctx.font = "900 48px 'Bodoni 72', 'Cinzel', Georgia, serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.letterSpacing = "6px";
+      ctx.fillText("KOYO", w / 2, 85);
+    }
+
+    // 4. Silver-Golden Pill Capsule for Perfume Name
+    const pillY = 180;
+    const pillH = 114;
+    const pillW = w - 64; // 704px
+    const pillX = 32;
+
+    ctx.fillStyle = "#0A0A0C";
+    ctx.strokeStyle = "#DFCA9B"; // Silver-Gold
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.roundRect(pillX, pillY, pillW, pillH, 24);
+    ctx.fill();
+    ctx.stroke();
+
+    // 5. Fragrance Name in Pure White (Futura Bold, dynamically sized)
+    const cleanName = (perfumeName || "BESPOKE PERFUME OIL").toUpperCase().trim();
+    ctx.fillStyle = "#FFFFFF";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.letterSpacing = "4px";
+
+    // Dynamic font sizing
+    let fontSize = 42;
+    if (cleanName.length > 20) fontSize = 34;
+    else if (cleanName.length > 16) fontSize = 38;
+    else if (cleanName.length > 12) fontSize = 40;
+
+    ctx.font = `700 ${fontSize}px Futura, 'Futura Bold', 'Century Gothic', -apple-system, sans-serif`;
+    ctx.fillText(cleanName, w / 2, pillY + pillH / 2);
+
+    // 6. Subtitle / Note Type in Silver-Gold
+    let subText = "";
+    if (customType && customType.trim()) {
+      subText = `―   ${customType.toUpperCase()}   ―`;
+    } else if (showBottleBadge) {
+      subText = `―   10ML PURE PERFUME OIL · BOTTLE ${bottleNum} OF 2   ―`;
+    } else {
+      subText = `―   10ML BESPOKE PERFUME OIL   ―`;
+    }
+
+    ctx.fillStyle = "#DFCA9B";
+    ctx.font = "700 22px Futura, 'Futura Bold', 'Century Gothic', -apple-system, sans-serif";
+    ctx.letterSpacing = "6px";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(subText, w / 2, 382);
   }
 
   /**
-   * Universal Smart Print
+   * Export Canvas as High-Res Data URL
    */
-  async printToMacBook(customEndpoint = null, intensity = 140) {
-    const isLocal = window.location.hostname === "localhost" || 
-                    window.location.hostname === "127.0.0.1" || 
-                    window.location.hostname.startsWith("192.168.");
+  toDataURL(type = "image/png") {
+    return this.canvas.toDataURL(type);
+  }
 
-    let endpoint = "/api/print";
-    if (!isLocal) {
-      const savedRelay = localStorage.getItem("koyo_custom_relay") || DEFAULT_CLOUD_RELAY;
-      endpoint = `${savedRelay.replace(/\/$/, "")}/api/print`;
-    }
+  /**
+   * Export Canvas as pure Vector SVG string
+   */
+  toSVG(options = {}) {
+    const {
+      perfumeName = "OUD ROYALE",
+      bottleNum = 1,
+      customType = ""
+    } = options;
 
-    if (customEndpoint) {
-      endpoint = customEndpoint;
-    }
+    const cleanName = (perfumeName || "BESPOKE PERFUME OIL").toUpperCase().trim();
+    let fontSize = 42;
+    if (cleanName.length > 20) fontSize = 34;
+    else if (cleanName.length > 16) fontSize = 38;
+    else if (cleanName.length > 12) fontSize = 40;
 
-    const payload = {
-      image: this.toDataURL(),
-      intensity: intensity,
-      paper_mode: "label_tight",
-      feed_lines: 20
-    };
+    let subText = customType ? `―   ${customType.toUpperCase()}   ―` : `―   10ML PURE PERFUME OIL · BOTTLE ${bottleNum} OF 2   ―`;
 
-    const resp = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "1"
-      },
-      body: JSON.stringify(payload)
-    });
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 480" width="48mm" height="30mm">
+  <defs>
+    <style>
+      .bg-black { fill: #0A0A0C; }
+      .border-white { fill: none; stroke: #FFFFFF; stroke-width: 4px; }
+      .pill-gold { fill: #0A0A0C; stroke: #DFCA9B; stroke-width: 3px; }
+      .text-white { font-family: Futura, 'Futura Bold', 'Century Gothic', -apple-system, sans-serif; font-weight: 700; fill: #FFFFFF; text-anchor: middle; dominant-baseline: central; }
+      .text-gold { font-family: Futura, 'Futura Bold', 'Century Gothic', -apple-system, sans-serif; font-weight: 700; fill: #DFCA9B; text-anchor: middle; dominant-baseline: central; }
+    </style>
+  </defs>
 
-    if (!resp.ok) {
-      throw new Error(`Server returned HTTP ${resp.status}`);
-    }
+  <g id="layer_background">
+    <rect width="768" height="480" class="bg-black"/>
+  </g>
 
-    return await resp.json();
+  <g id="layer_border">
+    <rect x="16" y="16" width="736" height="448" rx="24" ry="24" class="border-white"/>
+  </g>
+
+  <g id="layer_koyo_logo" transform="translate(219, 40) scale(0.681325)" fill="#FFFFFF">
+    <path d="m406.01,166.2c-43.68.1-68.43-29.78-68.39-69.54.04-39.08,26.55-68.43,67.6-68.45,41.99-.02,69.66,26.89,69.28,68.4-.36,38.87-24.46,69.69-68.5,69.58m51.4-69.71c.69-15.04-2.28-30.08-10.74-43.64-9.56-15.31-23.38-22.77-41.67-22.44-18.23.33-32.63,7.66-40.8,23.79-14.41,28.46-14.43,57.78.93,85.75,17.73,32.29,61.36,32.79,81.03,1.63,8.51-13.49,11.75-28.46,11.24-45.1"/>
+    <path d="m310.69,130.72c0,5.79.09,10.81.26,15.08.17,4.27.72,7.82,1.65,10.65.93,2.83,2.44,4.93,4.53,6.31,2.09,1.38,5.05,2.07,8.87,2.07v1.38h-60.21v-1.38c3.83,0,6.81-.69,8.96-2.07,2.14-1.38,3.68-3.48,4.61-6.31.93-2.83,1.48-6.37,1.65-10.65.17-4.27.26-9.3.26-15.08v-20.5l-24.71-56.57c-1.86-4.2-3.54-7.82-5.05-10.84-1.51-3.02-3.04-5.52-4.61-7.49-1.57-1.97-3.25-3.42-5.05-4.34-1.8-.92-3.91-1.38-6.35-1.38v-1.38h60.91v1.38c-3.95,0-6.59,1.08-7.92,3.25-1.34,2.17-1.86,4.8-1.57,7.89.29,3.09,1.05,6.38,2.26,9.86,1.22,3.48,2.35,6.54,3.39,9.17l17.23,42.58,7.31-19.12c2.32-6.17,4.58-12.45,6.79-18.82,2.2-6.37,3.62-12.12,4.26-17.25.64-5.13.18-9.33-1.39-12.62-1.57-3.28-4.9-4.93-10.01-4.93v-1.38h41.59v1.38c-3.94,0-7.74,1.48-11.4,4.44-3.66,2.96-7.16,6.93-10.53,11.93-3.37,5-5.77,10.87-8.78,17.37-3.02,6.51-5.99,13.64-8.66,20.86l-8.31,19.91v26.61Z"/>
+    <g>
+      <path d="m470.24,0c7.63.01,14.08,6.1,14.11,14.07.03,7.77-6.11,13.81-13.44,14.13-8.21.36-14.54-6.13-14.76-13.64-.23-7.94,6.08-14.53,14.09-14.56Zm-.01,26.04c6.43.05,11.9-5.19,11.95-11.85.05-6.46-5.2-11.98-11.9-12.01-6.38-.03-11.91,5.12-11.96,11.87-.05,6.5,5.23,12,11.91,11.99Z"/>
+      <path d="m473.85,16.06c.61,1.52,1.21,3.03,1.83,4.57h-1.67q-.51,0-.7-.48c-.5-1.24-.99-2.48-1.49-3.73-.03-.09-.06-.15-.18-.15-1.16,0-2.33,0-3.49,0-.01,0-.02,0-.06.01v4.32h-2.18V7.6c.08,0,.14,0,.21,0,2.08,0,4.15-.01,6.23,0,1.68.02,3,.72,3.85,2.2.5.87.65,1.82.5,2.82-.16,1.05-.63,1.91-1.42,2.61-.38.34-.82.6-1.3.77-.04.02-.08.03-.14.06Zm-5.76-1.95c1.5,0,2.98.01,4.46,0,.61,0,1.13-.26,1.53-.74.4-.47.52-1.02.49-1.63-.05-1.01-.94-1.93-1.94-1.94-1.43-.02-2.87-.02-4.3-.02-.08,0-.16,0-.24,0v4.34Z"/>
+    </g>
+    <path d="m59.69,166.2H1.24l-.43-1.14c1-.73,1.9-1.82,3.02-2.15,8.82-2.59,10.49-4.21,10.73-13.47.34-12.99.18-25.99.19-38.99.02-21,.06-42-.04-62.99-.06-12.51-.67-13.17-12.6-17.44-.56-.2-.91-1.01-2.12-2.41h60.57c-1.3,1.49-1.64,2.28-2.18,2.45-11.36,3.47-12.02,4.2-12.11,16.07-.1,12.75-.06,25.5-.01,38.25,0,2.17.4,4.34.81,8.45,5.21-2.04,9.98-2.89,13.5-5.46,13.91-10.14,24.51-23.51,33.35-38.06,5.36-8.84,2.33-14.87-7.42-18.62-1.29-.5-2.51-1.17-3.77-1.76.09-.49.18-.98.27-1.47h45.25c.28.48.55.96.83,1.44-11.05,5.51-21.6,11.57-29.37,21.35-7.58,9.55-15.53,18.81-23.66,28.61,9.64,15.13,18.64,30.09,28.5,44.46,9.76,14.24,16.16,31.11,31.77,40.92-.17.49-.34.97-.51,1.46h-53.79l-.52-.94c3-1.54,6-3.07,9.68-4.96-1.17-2.68-1.89-5.03-3.13-7.06-9.49-15.58-19.03-31.13-28.69-46.6-2.71-4.35-5.49-8.98-12.41-8.97-.26,2.42-.68,4.56-.68,6.71-.05,14.5-.1,29,0,43.5.09,11.49.69,12.15,11.55,15.83.85.29,1.55,1.03,2.32,1.57-.15.48-.3.95-.46,1.43"/>
+    <path d="m184.96,166.2c-49.35.1-68.89-36.63-68.68-69.37.25-40.09,26.86-69.49,68.86-69.38,41.21.11,68.22,25.88,68.9,68.89.66,41.5-28.01,69.86-69.08,69.86m51.92-69.7c.17-15.85-2.76-30.88-11.03-44.69-18.08-30.2-64.09-28.48-80.77-2.12-8.14,12.86-11.32,26.94-11.85,41.7-.7,19.57,2.35,38.33,14.74,54.47,19.88,25.89,58.82,24.3,76.53-3.03,9.16-14.14,12.64-29.72,12.38-46.33"/>
+  </g>
+
+  <g id="layer_name_pill">
+    <rect x="32" y="180" width="704" height="114" rx="24" ry="24" class="pill-gold"/>
+  </g>
+
+  <g id="layer_fragrance_name">
+    <text x="384" y="240" font-size="${fontSize}px" letter-spacing="4px" class="text-white">${cleanName}</text>
+  </g>
+
+  <g id="layer_note_type">
+    <text x="384" y="382" font-size="22px" letter-spacing="6px" class="text-gold">${subText}</text>
+  </g>
+</svg>`;
   }
 }

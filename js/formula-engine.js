@@ -1,31 +1,31 @@
 /**
- * KOYO Perfume Atelier - Formula Calculation Engine (10ml Bottle Specialist)
- * Pure volume-based calculations (mL and drops).
+ * KOYO Perfume Atelier - Formula Calculation Engine (10ml Pure Perfume Oil Edition)
+ * Pure fragrance oil calculations: Drops & Precision Scale Grams (No ethanol / alcohol).
  *
  * Calibration:
- * 1 drop = 0.05 mL
- * 40 drops = 2.0 mL Oil (20% conc) + 8.0 mL Ethanol = 10.0 mL Total
- * 60 drops = 3.0 mL Oil (30% conc) + 7.0 mL Ethanol = 10.0 mL Total
- * 80 drops = 4.0 mL Oil (40% conc) + 6.0 mL Ethanol = 10.0 mL Total
+ * Average drop = 0.035 grams (~0.04 mL)
+ * 100 drops = ~3.50 grams (1 drop = 1.0% of formula)
+ * Strict Single Category Pyramid: TOP, HEART, BASE.
  */
 
 class FormulaEngine {
   constructor() {
-    this.mlPerDrop = 0.05; // 20 drops = 1.0 mL
+    this.gramsPerDropDefault = 0.035; // Standard pipette drop of fragrance oil ~0.035g
     this.bottleSizeMl = 10.0;
   }
 
   /**
-   * Analyze current formula drops
-   * @param {Object} dropsMap - e.g. { 'fresh-citrus': 12, 'pineapple': 14, ... }
-   * @param {string} concentrationId - 'airy' (40), 'balanced' (60), 'intense' (80)
-   * @param {string|null} selectedReadyMadeId - if a ready-made oil is active
+   * Analyze bottle formula drops
+   * @param {Object} dropsMap - e.g. { 'fresh-citrus': 15, 'oud': 10, ... }
+   * @param {number} targetDrops - default 100
+   * @param {string|null} selectedReadyMadeId - optional ready-made oil ID
    */
-  analyzeFormula(dropsMap, concentrationId = "balanced", selectedReadyMadeId = null) {
+  analyzeFormula(dropsMap, targetDrops = 100, selectedReadyMadeId = null) {
     const activeDrops = {};
     let totalDrops = 0;
+    let totalGrams = 0;
 
-    for (const [key, count] of Object.entries(dropsMap)) {
+    for (const [key, count] of Object.entries(dropsMap || {})) {
       const drops = Math.max(0, parseInt(count) || 0);
       if (drops > 0) {
         activeDrops[key] = drops;
@@ -33,7 +33,6 @@ class FormulaEngine {
       }
     }
 
-    // Role breakdown weights
     let topDrops = 0;
     let heartDrops = 0;
     let baseDrops = 0;
@@ -44,37 +43,35 @@ class FormulaEngine {
       const accord = ACCORDS_DATA.find((a) => a.id === key);
       const readyMade = READY_MADE_OILS.find((r) => r.id === key || (selectedReadyMadeId && r.id === selectedReadyMadeId && key === selectedReadyMadeId));
 
-      let name = accord ? accord.name : (readyMade ? `${readyMade.title} (Premixed Oil)` : key);
-      let role = accord ? accord.role : "BALANCED";
-      let family = accord ? accord.family : "Premixed Ready Oil";
-      let color = accord ? accord.color : "#d4af37";
+      const name = accord ? accord.name : (readyMade ? `${readyMade.title} (Premixed Oil)` : key);
+      const role = accord ? accord.role : "BALANCED";
+      const roleLabel = accord ? accord.roleLabel : "READY-MADE OIL";
+      const family = accord ? accord.family : "Premixed Ready Oil";
+      const color = accord ? accord.color : "#d4af37";
+      const density = accord && accord.densityGramsPerDrop ? accord.densityGramsPerDrop : this.gramsPerDropDefault;
 
       const pctOfOil = totalDrops > 0 ? (count / totalDrops) * 100 : 0;
-      const volumeMl = count * this.mlPerDrop;
+      const grams = Math.round(count * density * 100) / 100;
+      totalGrams += grams;
 
       accordBreakdown.push({
         id: key,
         name,
         role,
+        roleLabel,
         family,
         color,
         drops: count,
-        percentage: pctOfOil,
-        volumeMl: Math.round(volumeMl * 100) / 100
+        percentage: Math.round(pctOfOil * 10) / 10,
+        grams: grams
       });
 
-      // Role distribution
+      // Strict single category accumulation
       if (accord) {
         if (accord.role === "TOP") {
           topDrops += count;
-        } else if (accord.role === "TOP/HEART") {
-          topDrops += count * 0.5;
-          heartDrops += count * 0.5;
         } else if (accord.role === "HEART") {
           heartDrops += count;
-        } else if (accord.role === "HEART/BASE") {
-          heartDrops += count * 0.5;
-          baseDrops += count * 0.5;
         } else if (accord.role === "BASE") {
           baseDrops += count;
         }
@@ -86,148 +83,150 @@ class FormulaEngine {
       }
     }
 
+    totalGrams = Math.round(totalGrams * 100) / 100;
+
+    // Pyramid Percentages
     const topPct = totalDrops > 0 ? Math.round((topDrops / totalDrops) * 100) : 0;
     const heartPct = totalDrops > 0 ? Math.round((heartDrops / totalDrops) * 100) : 0;
     const basePct = totalDrops > 0 ? Math.max(0, 100 - topPct - heartPct) : 0;
 
-    // Exact Calibrated Oil Volume & Concentration in 10ml Bottle
-    const totalOilVolumeMl = Math.round(totalDrops * this.mlPerDrop * 100) / 100;
-    const concentrationPercent = Math.min(100, Math.round((totalOilVolumeMl / this.bottleSizeMl) * 1000) / 10);
-    const ethanolVolumeMl = Math.max(0, Math.round((this.bottleSizeMl - totalOilVolumeMl) * 100) / 100);
+    // Fill Progress relative to target
+    const fillPercent = targetDrops > 0 ? Math.min(100, Math.round((totalDrops / targetDrops) * 100)) : 0;
 
-    // Target drops for selected profile (only 3 modes: airy=40, balanced=60, intense=80)
-    const profile = CONCENTRATION_PROFILES.find((p) => p.id === concentrationId) || CONCENTRATION_PROFILES[1];
-    const targetDrops = profile.targetDrops;
-    const capacityPct = Math.min(150, Math.round((totalDrops / targetDrops) * 100));
-
-    // Diagnostics & Guidance
-    const diagnostics = this.evaluateBalance(topPct, heartPct, basePct, totalDrops, targetDrops, accordBreakdown);
+    // Perfumer Diagnostic & Suggestions
+    const diagnostic = this.generateDiagnostic(topPct, heartPct, basePct, totalDrops, targetDrops, activeDrops);
 
     return {
       totalDrops,
       targetDrops,
-      capacityPct,
-      activeCount: Object.keys(activeDrops).length,
-      accordBreakdown,
+      fillPercent,
+      totalGrams,
+      topDrops: Math.round(topDrops),
+      heartDrops: Math.round(heartDrops),
+      baseDrops: Math.round(baseDrops),
       topPct,
       heartPct,
       basePct,
-      topDrops: Math.round(topDrops * 10) / 10,
-      heartDrops: Math.round(heartDrops * 10) / 10,
-      baseDrops: Math.round(baseDrops * 10) / 10,
-      totalOilVolumeMl,
-      ethanolVolumeMl,
-      concentrationPercent,
-      diagnostics
+      accordBreakdown,
+      diagnostic
     };
   }
 
   /**
-   * Auto-Balance / Scale current formula to target total drops without altering proportions
+   * Compare two bottles to show exact tweaks (Bottle 1 vs Bottle 2)
    */
-  normalizeToTarget(dropsMap, targetTotalDrops = 60) {
-    const currentTotal = Object.values(dropsMap).reduce((sum, d) => sum + (parseInt(d) || 0), 0);
-    if (currentTotal === 0 || targetTotalDrops <= 0) return { ...dropsMap };
+  compareBottles(bottle1Drops, bottle2Drops) {
+    const allKeys = new Set([
+      ...Object.keys(bottle1Drops || {}),
+      ...Object.keys(bottle2Drops || {})
+    ]);
 
-    const ratio = targetTotalDrops / currentTotal;
-    const newDrops = {};
-    let scaledSum = 0;
+    const tweaks = [];
+    let hasChanges = false;
 
-    const entries = Object.entries(dropsMap).filter(([_, v]) => v > 0);
-    entries.forEach(([id, count]) => {
-      const scaled = Math.max(1, Math.round(count * ratio));
-      newDrops[id] = scaled;
-      scaledSum += scaled;
-    });
+    for (const key of allKeys) {
+      const b1 = parseInt(bottle1Drops[key]) || 0;
+      const b2 = parseInt(bottle2Drops[key]) || 0;
+      const diff = b2 - b1;
 
-    // Adjust any rounding delta on highest accord
-    const delta = targetTotalDrops - scaledSum;
-    if (delta !== 0 && entries.length > 0) {
-      const highestAccord = entries.sort((a, b) => b[1] - a[1])[0][0];
-      newDrops[highestAccord] = Math.max(1, newDrops[highestAccord] + delta);
+      if (b1 > 0 || b2 > 0) {
+        const accord = ACCORDS_DATA.find((a) => a.id === key);
+        const name = accord ? accord.name : key;
+        const color = accord ? accord.color : "#d4af37";
+        const role = accord ? accord.role : "";
+
+        let status = "same";
+        if (b1 === 0 && b2 > 0) status = "added";
+        else if (b1 > 0 && b2 === 0) status = "removed";
+        else if (diff > 0) status = "increased";
+        else if (diff < 0) status = "decreased";
+
+        if (diff !== 0) hasChanges = true;
+
+        tweaks.push({
+          id: key,
+          name,
+          role,
+          color,
+          b1Drops: b1,
+          b2Drops: b2,
+          diff: diff,
+          diffFormatted: diff > 0 ? `+${diff}` : `${diff}`,
+          status
+        });
+      }
     }
 
-    return newDrops;
+    // Sort tweaks: changed items first
+    tweaks.sort((a, b) => Math.abs(b.diff) - Math.abs(a.diff));
+
+    return {
+      hasChanges,
+      tweaks
+    };
   }
 
   /**
-   * Perfumer Diagnostics without hours
+   * Generate Perfumer Diagnostic Advice for 100% Perfume Oil
    */
-  evaluateBalance(topPct, heartPct, basePct, totalDrops, targetDrops, breakdown) {
+  generateDiagnostic(topPct, heartPct, basePct, totalDrops, targetDrops, activeDrops) {
     if (totalDrops === 0) {
       return {
-        status: "empty",
-        title: "Awaiting Your First Drops",
-        message: `Add accords from the list or select a ready oil. Aim for ~${targetDrops} total drops for this profile in your 10ml bottle.`,
-        tip: "Rule of thumb: 15 drops Top, 20 drops Heart, 25 drops Base.",
-        badge: "Empty Lab",
-        badgeClass: "badge-neutral"
+        title: "✨ Begin Crafting Your 10ml Perfume Oil",
+        desc: "Add drops from Top, Heart, or Base notes. Ideal master ratio: ~20% Top, ~35% Heart, ~45% Base.",
+        status: "neutral"
       };
     }
 
-    if (totalDrops < targetDrops * 0.65) {
-      const remaining = targetDrops - totalDrops;
+    if (totalDrops < targetDrops * 0.4) {
       return {
-        status: "under",
-        title: `🌱 Light Formulation (${totalDrops} / ${targetDrops} drops)`,
-        message: `Currently at ${totalDrops} drops (${Math.round(totalDrops * 0.05 * 10) / 10} mL). Add ${remaining} more drops of heart or base notes to reach ${targetDrops} drops (${Math.round(targetDrops * 0.5)}% concentration).`,
-        tip: "Consider adding White Musk or Galaxolide for room-filling presence.",
-        badge: "Light Dose",
-        badgeClass: "badge-warning"
+        title: `🌱 Building Formula (${totalDrops}/${targetDrops} Drops)`,
+        desc: "Good start! Continue building your accords to reach your target 10ml bottle volume.",
+        status: "building"
       };
     }
 
-    if (totalDrops > targetDrops * 1.15) {
+    // Check for fixative musks
+    const hasMusk = (activeDrops["white-musk"] || 0) + (activeDrops["galaxolide"] || 0) + (activeDrops["ethylene-brassylate"] || 0) + (activeDrops["iso-e-super"] || 0);
+
+    if (hasMusk < 10) {
       return {
-        status: "over",
-        title: `⚠️ Rich Concentration (${totalDrops} / ${targetDrops} drops)`,
-        message: `Your formula has ${totalDrops} drops (${Math.round(totalDrops * 0.05 * 10) / 10} mL oil · ${Math.round(totalDrops * 0.5)}% concentration). Click 'Auto-Balance to Target' to scale ratios smoothly back to ${targetDrops} drops!`,
-        tip: "Auto-balancing scales your formula without changing your scent ratios.",
-        badge: "Rich Dose",
-        badgeClass: "badge-gold"
+        title: "💡 Perfumer Tip: Boost Longevity with Musks & Iso E Super",
+        desc: "In pure perfume oil, musks and Iso E Super prevent rapid evaporation and create an all-day luxury skin trail.",
+        status: "warning"
       };
     }
 
+    // Check Pyramid Balance
     if (topPct > 45) {
       return {
-        status: "top-heavy",
-        title: "⚡ Sparkling & Radiant Opening",
-        message: `High top note ratio (~${topPct}%). Your fragrance will burst with energetic sparkle when first sprayed.`,
-        tip: "Add 4–6 drops of Ethylene Brassylate or White Musk to anchor the fresh opening.",
-        badge: "High Radiance",
-        badgeClass: "badge-accent"
+        title: "⚡ High Top-Note Opening",
+        desc: "Your opening will be sparkling and vibrant, but might fade into the base quickly. Consider adding 5–10 drops of Heart florals or Base woods.",
+        status: "caution"
       };
     }
 
-    if (basePct > 55) {
+    if (basePct > 65) {
       return {
-        status: "base-heavy",
-        title: "🔥 Deep, Warm & Long-Lasting",
-        message: `Base note rich (~${basePct}%). Deeply tenacious with great staying power that sits close and velvety on skin.`,
-        tip: "Add 3–5 drops of Fresh Citrus or Pineapple for an inviting fresh lift.",
-        badge: "Deep Tenacity",
-        badgeClass: "badge-gold"
+        title: "🔥 Deep Resinous Heavy Base",
+        desc: "Very rich, warm, and tenacious! If it feels too dense, lift it with a few drops of Fresh Citrus, Pineapple, or Hedione for radiant projection.",
+        status: "caution"
       };
     }
 
-    if (heartPct > 45) {
+    if (heartPct < 15 && totalDrops > 50) {
       return {
-        status: "heart-dominant",
-        title: "🌸 Opulent Floral & Sweet Body",
-        message: `Heart note dominant (~${heartPct}%). Rich character with beautiful sillage that blooms after spraying.`,
-        tip: "Pair with clean musks to give your floral/gourmand accords a soft cloud halo.",
-        badge: "Rich Sillage",
-        badgeClass: "badge-emerald"
+        title: "🌸 Missing Floral / Heart Body",
+        desc: "Top and Base are strong, but the blend lacks a middle bridge. Consider 6–10 drops of Rose Honey, White Floral, or Hedione.",
+        status: "caution"
       };
     }
 
+    // Balanced
     return {
-      status: "balanced",
-      title: "✨ Master Perfumer Harmonious Arch",
-      message: `Ideal balance: ${topPct}% Top, ${heartPct}% Heart, ${basePct}% Base. Highly versatile, structured, and long-lasting on skin.`,
-      tip: "Your formula is in perfect harmony! Ready for the recipe sheet.",
-      badge: "Harmonious",
-      badgeClass: "badge-success"
+      title: "👑 Master Olfactory Balance Achieved",
+      desc: `Harmonious pure oil distribution (${topPct}% Top · ${heartPct}% Heart · ${basePct}% Base). Ready for bottling & testing!`,
+      status: "perfect"
     };
   }
 }

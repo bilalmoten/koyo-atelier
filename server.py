@@ -184,12 +184,12 @@ def main():
     print_ascii_qr(phone_url)
 
     print("\n✨ Workshop Features Enabled:")
-    print("  • 13 Official Pure Accords with live Smelling Impressions log")
-    print("  • 4 Curated Starting Archetypes + 4 Ready-Made Designer Bases")
-    print("  • 10ml Precision Drop Builder with Live Scent Pyramid Analytics")
-    print("  • Descriptive Concentration & Projection Profiles (Airy, Balanced, Intense)")
-    print("  • Complete 10ml Recipe Sheet & Workshop Blending Walkthrough")
-    print("  • 1-Tap 10ml Thermal Bottle Sticker Generator & Direct Print")
+    print("  • 17 Official Pure Accords (Top, Heart, Base) with live Smelling Impressions log")
+    print("  • Dual 10ml Bottle Studio: Craft Bottle 1, test on skin, clone & tweak into Bottle 2")
+    print("  • 100% Pure Perfume Oil (No Ethanol): 100-drop standard (1 drop = 1.0% formula)")
+    print("  • Dual Input Modes: 💧 Drops Mode (Pipette) & ⚖️ Precision Scale Mode (Grams)")
+    print("  • Live Bottle 1 vs Bottle 2 Tweak Inspector tracking all adjustments")
+    print("  • Option 3 Modern Niche Capsule Label Studio: 1-Tap Thermal Print or UV DTF Export")
     print("═" * 62, flush=True)
     print("🚀 Workshop Server is RUNNING on port", port, "(Press Ctrl+C to stop)\n", flush=True)
 

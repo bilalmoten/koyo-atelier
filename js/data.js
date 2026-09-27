@@ -1,211 +1,320 @@
 /**
- * KOYO Perfume Atelier - Data Repository
- * Master formulas, accord database, olfactory pyramid roles, and ready-made fragrance oils.
+ * KOYO Perfume Atelier - Data Repository (10ml Pure Perfume Oil Edition)
+ * Master formulas, 17-accord database, single-category olfactory pyramid, and ready-made oils.
+ * OIL ONLY Workshop: No ethanol / alcohol. Pure fragrance oils measured in drops and grams.
  */
 
 const ACCORDS_DATA = [
+  // ==========================================
+  // TOP NOTES (3)
+  // ==========================================
   {
     id: "fresh-citrus",
     name: "Fresh Citrus Accord",
-    family: "Fresh",
+    family: "Fresh / Citrus",
     role: "TOP",
+    roleLabel: "TOP NOTE",
     shortDescription: "Sparkling citrus brightness; clean first impression",
-    fullDescription: "A dazzling burst of sun-drenched Italian bergamot, crisp lemon zest, and juicy mandarin. Lifts the entire fragrance with an immediate energetic radiance and clarity.",
-    volatility: "Fast Volatility (Sparkling Opening)",
+    fullDescription: "A dazzling burst of sun-drenched Italian bergamot, crisp lemon zest, and juicy mandarin. Lifts the fragrance with an immediate energetic radiance and luminous clarity.",
+    volatility: "Fast Volatility (Opening Burst)",
     intensity: "Bright & Sparkling",
-    recommendedPct: "15% – 25% of formula (approx. 8–15 drops)",
-    pairsWith: ["Pineapple Accord", "Lotus Accord", "White Musk", "Leather Accord"],
+    recommendedPct: "15% – 25% (approx. 15–25 drops / 0.5–0.9g)",
+    pairsWith: ["Pineapple Accord", "Black Currant Accord", "Hedione", "Iso E Super", "White Musk"],
     color: "#f59e0b",
-    tags: ["Sparkling", "Clean", "Luminous", "Zesty"],
-    perfumerTip: "Adds instant vitality and openness. Essential for a radiant opening spray."
+    tags: ["Sparkling", "Bergamot", "Zesty", "Luminous"],
+    perfumerTip: "Adds instant vitality and openness. Essential for an uplifting first impression on skin.",
+    densityGramsPerDrop: 0.035
   },
   {
     id: "pineapple",
     name: "Pineapple Accord",
-    family: "Fruity",
+    family: "Fruity / Tropical",
     role: "TOP",
-    shortDescription: "Juicy tropical fruit; playful and luminous",
-    fullDescription: "Succulent, freshly sliced golden pineapple with tart exotic facets and a hint of caramelized natural sweetness. Brings modern vibrant optimism.",
+    roleLabel: "TOP NOTE",
+    shortDescription: "Juicy tropical fruit; playful, bright and luminous",
+    fullDescription: "Succulent, freshly sliced golden pineapple with tart exotic facets and a hint of caramelized natural sweetness. Brings modern vibrant optimism and juicy radiance.",
     volatility: "Fast Volatility (Tropical Lift)",
     intensity: "Bright & Tropical",
-    recommendedPct: "15% – 25% of formula (approx. 8–15 drops)",
-    pairsWith: ["Black Currant Accord", "Fresh Citrus Accord", "Galaxolide", "Leather Accord"],
+    recommendedPct: "15% – 25% (approx. 15–25 drops / 0.5–0.9g)",
+    pairsWith: ["Black Currant Accord", "Fresh Citrus Accord", "Leather Accord", "Galaxolide", "Iso E Super"],
     color: "#eab308",
     tags: ["Juicy", "Tropical", "Playful", "Modern"],
-    perfumerTip: "The signature secret behind iconic luxury niche scents. Blends magnificently with leather and musks."
+    perfumerTip: "The iconic secret behind legendary modern luxury scents. Blends magnificently with Leather and Iso E Super.",
+    densityGramsPerDrop: 0.036
   },
   {
     id: "black-currant",
     name: "Black Currant Accord",
-    family: "Fruity",
-    role: "TOP/HEART",
-    shortDescription: "Tart berry fruit; bold, modern lift",
-    fullDescription: "Deep, purple-tinted cassis berries with crisp green leafy undertones and a tangy, mouthwatering contrast. Bridges the fleeting top into the floral/woody core.",
-    volatility: "Medium Volatility (Transition Note)",
+    family: "Fruity / Berry",
+    role: "TOP",
+    roleLabel: "TOP NOTE",
+    shortDescription: "Tart dark berry fruit; bold, modern punch",
+    fullDescription: "Deep, purple-tinted cassis berries with crisp green leafy undertones and a tangy, mouthwatering contrast. Imparts an assertive, sophisticated fruit opening.",
+    volatility: "Fast–Medium Volatility (Vibrant Punch)",
     intensity: "Rich & Tart",
-    recommendedPct: "10% – 18% of formula (approx. 5–10 drops)",
-    pairsWith: ["Pineapple Accord", "White Floral Accord", "Rose Honey Accord", "White Musk"],
-    color: "#8b5cf6",
+    recommendedPct: "10% – 20% (approx. 10–20 drops / 0.35–0.7g)",
+    pairsWith: ["Pineapple Accord", "Rose Honey Accord", "White Floral Accord", "Oud Accord", "White Musk"],
+    color: "#a855f7",
     tags: ["Tart", "Bold", "Cassis", "Sophisticated"],
-    perfumerTip: "Gives a bold contemporary edge. A few drops prevent sweet florals from feeling too powdery."
+    perfumerTip: "Gives a bold contemporary edge. A few drops prevent sweet florals or rich vanillas from feeling flat.",
+    densityGramsPerDrop: 0.035
   },
+
+  // ==========================================
+  // HEART NOTES (5)
+  // ==========================================
   {
     id: "lotus",
     name: "Lotus Accord",
-    family: "Floral",
+    family: "Floral / Aquatic",
     role: "HEART",
+    roleLabel: "HEART NOTE",
     shortDescription: "Watery soft floral; airy, elegant and delicate",
-    fullDescription: "Dewy lotus blossoms floating over clear morning spring water. Translucent, calming, poetic, and pristine with gentle green petal nuances.",
-    volatility: "Medium Volatility (Airy Body)",
+    fullDescription: "Dewy lotus blossoms floating over clear morning spring water. Translucent, calming, poetic, and pristine with gentle green petal nuances and serene aquatic softness.",
+    volatility: "Medium Volatility (Airy Floral Body)",
     intensity: "Delicate & Airy",
-    recommendedPct: "15% – 25% of formula (approx. 8–15 drops)",
-    pairsWith: ["White Floral Accord", "Fresh Citrus Accord", "White Musk", "Galaxolide"],
+    recommendedPct: "12% – 22% (approx. 12–22 drops / 0.4–0.8g)",
+    pairsWith: ["White Floral Accord", "Fresh Citrus Accord", "Hedione", "White Musk", "Galaxolide"],
     color: "#06b6d4",
     tags: ["Watery", "Airy", "Serene", "Delicate"],
-    perfumerTip: "Creates a dreamy, modern aquatic-floral breeze without heavy sweetness."
+    perfumerTip: "Creates a dreamy, modern aquatic-floral breeze. Opens up dense heavy formulas.",
+    densityGramsPerDrop: 0.035
   },
   {
     id: "white-floral",
     name: "White Floral Accord",
     family: "Floral",
     role: "HEART",
-    shortDescription: "Creamy floral body; polished and feminine",
-    fullDescription: "A lush, velvety bouquet of gardenia, night-blooming jasmine, and white tuberose petals. Silky, opulent, captivating, and timelessly elegant.",
+    roleLabel: "HEART NOTE",
+    shortDescription: "Creamy floral body; polished and opulent",
+    fullDescription: "A lush, velvety bouquet of gardenia, night-blooming jasmine, and white tuberose petals. Silky, opulent, captivating, and timelessly elegant fine fragrance heart.",
     volatility: "Medium–Long Tenacity (Opulent Body)",
     intensity: "Opulent & Polished",
-    recommendedPct: "18% – 30% of formula (approx. 10–18 drops)",
-    pairsWith: ["Rose Honey Accord", "Lotus Accord", "Marshmallow", "Galaxolide"],
+    recommendedPct: "15% – 25% (approx. 15–25 drops / 0.5–0.9g)",
+    pairsWith: ["Rose Honey Accord", "Lotus Accord", "Hedione", "Marshmallow Accord", "Vanilla Accord"],
     color: "#ec4899",
-    tags: ["Creamy", "Opulent", "Polished", "Velvety"],
-    perfumerTip: "The heart and soul of fine perfumery. Provides luxurious body and captivating sillage."
+    tags: ["Creamy", "Opulent", "Jasmine", "Velvety"],
+    perfumerTip: "The heart and soul of classic fine perfumery. Imparts magnificent sillage and creamy luxury body.",
+    densityGramsPerDrop: 0.036
   },
   {
     id: "rose-honey",
     name: "Rose Honey Accord",
-    family: "Floral/Sweet",
+    family: "Floral / Sweet",
     role: "HEART",
-    shortDescription: "Soft rose with honeyed warmth and sweetness",
-    fullDescription: "Velvety Damask rose petals drizzled with golden artisanal acacia honey and warm morning nectar. Romantic, sensual, and invitingly cozy.",
+    roleLabel: "HEART NOTE",
+    shortDescription: "Velvety Damask rose with golden acacia honeyed warmth",
+    fullDescription: "Rich Damask rose petals drizzled with golden artisanal acacia honey and warm morning floral nectar. Deeply romantic, sensual, warm, and invitingly cozy.",
     volatility: "Medium–Long Tenacity (Sensual Core)",
     intensity: "Sensual & Honeyed",
-    recommendedPct: "12% – 22% of formula (approx. 6–12 drops)",
-    pairsWith: ["White Floral Accord", "Gourmand Accord", "Marshmallow", "Tobacco Accord"],
+    recommendedPct: "10% – 20% (approx. 10–20 drops / 0.35–0.7g)",
+    pairsWith: ["White Floral Accord", "Vanilla Accord", "Tobacco Accord", "Oud Accord", "Marshmallow Accord"],
     color: "#f43f5e",
     tags: ["Romantic", "Honeyed", "Warm", "Sensual"],
-    perfumerTip: "Pairs divinely with White Floral and Gourmand to create an irresistible romantic warmth."
+    perfumerTip: "Pairs divinely with Tobacco and Oud to create irresistible Eastern-niche warmth and magnetic intimacy.",
+    densityGramsPerDrop: 0.037
   },
   {
-    id: "gourmand",
-    name: "Gourmand Accord",
-    family: "Sweet",
-    role: "HEART/BASE",
-    shortDescription: "Dessert-like sweetness; cozy, edible and round",
-    fullDescription: "Warm caramelized sugar, roasted praline, velvety vanilla bean, and toasted hazelnut cream. Irresistibly comforting, indulgent, and addictive.",
-    volatility: "Long Tenacity (Deep Warmth)",
-    intensity: "Warm & Round",
-    recommendedPct: "8% – 18% of formula (approx. 4–10 drops)",
-    pairsWith: ["Marshmallow", "Rose Honey Accord", "Tobacco Accord", "White Musk"],
-    color: "#d97706",
-    tags: ["Cozy", "Edible", "Praline", "Indulgent"],
-    perfumerTip: "Use with a measured hand for a sophisticated cozy halo, or increase for a decadent signature."
+    id: "hedione",
+    name: "Hedione",
+    family: "Transparent Floral / Booster",
+    role: "HEART",
+    roleLabel: "HEART NOTE",
+    shortDescription: "Luminous transparent jasmine booster & diffusion enhancer",
+    fullDescription: "The legendary aroma chemical that revolutionized luxury perfumery (Eau Sauvage). Imparts radiant floral airiness, dew-like morning transparency, and expands all surrounding notes effortlessly.",
+    volatility: "Medium–Long Tenacity (Radiant Diffuser)",
+    intensity: "Transparent & Diffusive",
+    recommendedPct: "10% – 20% (approx. 10–20 drops / 0.35–0.7g)",
+    pairsWith: ["Fresh Citrus Accord", "Iso E Super", "White Floral Accord", "Lotus Accord", "Galaxolide"],
+    color: "#38bdf8",
+    tags: ["Radiant", "Booster", "Transparent", "Diffusion"],
+    perfumerTip: "The master perfumer's secret weapon. It breathes air and radiance into heavy oils, giving roll-on oil incredible projection.",
+    densityGramsPerDrop: 0.035
   },
   {
     id: "marshmallow",
-    name: "Marshmallow",
-    family: "Sweet",
-    role: "HEART/BASE",
-    shortDescription: "Powdery fluffy sweetness; soft and playful",
-    fullDescription: "Airy spun sugar confection dusted with delicate powdered vanilla and soft white blossom musk. Fluffy, nostalgic, sweet, and comforting.",
-    volatility: "Long Tenacity (Velvet Cloud)",
+    name: "Marshmallow Accord",
+    family: "Sweet / Confectionery",
+    role: "HEART",
+    roleLabel: "HEART NOTE",
+    shortDescription: "Powdery fluffy sweetness; soft, playful and nostalgic",
+    fullDescription: "Airy spun sugar confection dusted with delicate powdered vanilla and soft white blossom sugar. Fluffy, nostalgic, sweet, and comforting cloud-like heart texture.",
+    volatility: "Medium–Long Tenacity (Velvet Cloud)",
     intensity: "Soft & Powdery",
-    recommendedPct: "10% – 20% of formula (approx. 5–12 drops)",
-    pairsWith: ["White Floral Accord", "Rose Honey Accord", "Gourmand Accord", "White Musk"],
+    recommendedPct: "8% – 18% (approx. 8–18 drops / 0.3–0.6g)",
+    pairsWith: ["White Floral Accord", "Rose Honey Accord", "Gourmand Accord", "Vanilla Accord", "White Musk"],
     color: "#f472b6",
     tags: ["Fluffy", "Powdery", "Playful", "Sweet"],
-    perfumerTip: "Smoothens sharp edges in citrus or spicy accords, giving the blend a soft cloud-like aura."
+    perfumerTip: "Smoothens sharp edges in citrus or spicy accords, giving the blend a soft comforting aura.",
+    densityGramsPerDrop: 0.035
+  },
+
+  // ==========================================
+  // BASE NOTES (9)
+  // ==========================================
+  {
+    id: "gourmand",
+    name: "Gourmand Accord",
+    family: "Sweet / Warm",
+    role: "BASE",
+    roleLabel: "BASE NOTE",
+    shortDescription: "Warm caramelized sugar, roasted praline and hazelnut cream",
+    fullDescription: "Decadent caramelized sugar, roasted praline, velvety vanilla bean, and toasted hazelnut cream. Irresistibly comforting, indulgent, and addictive evening anchor.",
+    volatility: "Long Tenacity (Deep Warmth)",
+    intensity: "Warm & Round",
+    recommendedPct: "8% – 18% (approx. 8–18 drops / 0.3–0.6g)",
+    pairsWith: ["Marshmallow Accord", "Vanilla Accord", "Tobacco Accord", "Oud Accord", "White Musk"],
+    color: "#d97706",
+    tags: ["Cozy", "Edible", "Praline", "Indulgent"],
+    perfumerTip: "Use with a measured hand for a sophisticated cozy halo, or increase for a decadent edible signature.",
+    densityGramsPerDrop: 0.036
+  },
+  {
+    id: "vanilla",
+    name: "Vanilla Accord",
+    family: "Warm Sweet / Gourmand",
+    role: "BASE",
+    roleLabel: "BASE NOTE",
+    shortDescription: "Creamy bourbon vanilla bean, rich comforting anchor",
+    fullDescription: "Pure Madagascar bourbon vanilla bean infused with creamy amber and smooth woody undertones. Universal, sensual, comforting, and deeply addictive drydown warmth.",
+    volatility: "Long Tenacity (Sensual Anchor)",
+    intensity: "Rich & Comforting",
+    recommendedPct: "10% – 20% (approx. 10–20 drops / 0.35–0.7g)",
+    pairsWith: ["Tobacco Accord", "Oud Accord", "Rose Honey Accord", "Gourmand Accord", "Iso E Super"],
+    color: "#b45309",
+    tags: ["Bourbon", "Creamy", "Sensual", "Addictive"],
+    perfumerTip: "Unifies woody and floral accords into a smooth, seamless texture. Balances dark smoke and leather effortlessly.",
+    densityGramsPerDrop: 0.036
+  },
+  {
+    id: "iso-e-super",
+    name: "Iso E Super",
+    family: "Woody / Ambergris",
+    role: "BASE",
+    roleLabel: "BASE NOTE",
+    shortDescription: "Velvety cedarwood & ambergris aura; modern pheromone radiance",
+    fullDescription: "The iconic molecule behind Molecule 01. A smooth, expanding cedarwood-ambergris aura that feels transparent, magnetic, and second-skin. Blends into human body warmth.",
+    volatility: "Ultra-Long Tenacity (Expanding Halo)",
+    intensity: "Subtle & Magnetic",
+    recommendedPct: "15% – 30% (approx. 15–30 drops / 0.5–1.0g)",
+    pairsWith: ["Hedione", "Oud Accord", "Pineapple Accord", "White Musk", "Galaxolide"],
+    color: "#64748b",
+    tags: ["Velvety", "Cedarwood", "Molecule", "Pheromonic"],
+    perfumerTip: "Creates that elusive, compliment-pulling aura. People smell it around you even when you think it has faded.",
+    densityGramsPerDrop: 0.035
   },
   {
     id: "white-musk",
     name: "White Musk",
     family: "Clean Musk",
     role: "BASE",
-    shortDescription: "Clean skin-like softness; smooth and wearable",
-    fullDescription: "Pristine sun-dried white linen, freshly laundered cotton, and warm intimate skin. The ultimate clean, universally flattering everyday signature.",
+    roleLabel: "BASE NOTE",
+    shortDescription: "Clean skin-like softness; smooth, intimate and wearable",
+    fullDescription: "Pristine sun-dried white linen, freshly laundered cotton, and warm intimate skin. The ultimate clean, universally flattering everyday signature anchor.",
     volatility: "Long Tenacity (Second-Skin Sillage)",
     intensity: "Intimate & Clean",
-    recommendedPct: "15% – 30% of formula (approx. 8–18 drops)",
-    pairsWith: ["Galaxolide", "Ethylene Brassylate", "Fresh Citrus Accord", "Lotus Accord"],
+    recommendedPct: "15% – 25% (approx. 15–25 drops / 0.5–0.9g)",
+    pairsWith: ["Galaxolide", "Ethylene Brassylate", "Lotus Accord", "Iso E Super", "Vanilla Accord"],
     color: "#94a3b8",
     tags: ["Clean", "Skin-Scent", "Smooth", "Modern"],
-    perfumerTip: "Acts as the foundation for your fragrance. Unifies all notes into a cohesive luxury blend."
+    perfumerTip: "Acts as the foundation for your fragrance oil. Melts accords together and prevents clashing notes.",
+    densityGramsPerDrop: 0.035
   },
   {
     id: "galaxolide",
     name: "Galaxolide",
-    family: "Musk",
+    family: "Clean Floral Musk",
     role: "BASE",
-    shortDescription: "Diffusive clean musk; adds softness and volume",
-    fullDescription: "A renowned master-perfumer musk that imparts remarkable radiant projection, sweet-floral floralcy, and a soft velvety aura that fills the room.",
+    roleLabel: "BASE NOTE",
+    shortDescription: "Diffusive clean musk; adds room-filling softness and volume",
+    fullDescription: "A renowned master-perfumer musk that imparts remarkable radiant projection, sweet-floral floralcy, and a soft velvety aura that extends oil presence.",
     volatility: "Ultra-Long Tenacity (Diffusive Volume)",
     intensity: "Radiant & Diffusive",
-    recommendedPct: "12% – 25% of formula (approx. 6–15 drops)",
-    pairsWith: ["White Musk", "Ethylene Brassylate", "Pineapple Accord", "White Floral Accord"],
-    color: "#a855f7",
+    recommendedPct: "10% – 20% (approx. 10–20 drops / 0.35–0.7g)",
+    pairsWith: ["White Musk", "Ethylene Brassylate", "Pineapple Accord", "White Floral Accord", "Hedione"],
+    color: "#818cf8",
     tags: ["Radiant", "Diffusive", "Volume", "Velvety"],
-    perfumerTip: "Adds immense sillage and space between notes. Essential for making your perfume project effortlessly."
+    perfumerTip: "Adds immense sillage and space between notes. Essential for making your perfume oil project effortlessly.",
+    densityGramsPerDrop: 0.036
   },
   {
     id: "ethylene-brassylate",
     name: "Ethylene Brassylate",
-    family: "Musk",
+    family: "Sweet Macrocyclic Musk",
     role: "BASE",
-    shortDescription: "Smooth elegant musk; helps longevity",
-    fullDescription: "A sophisticated macrocyclic musk with subtle sweet-woody and soft ambrette undertones. Provides unmatched fixative power and lasting skin persistence.",
+    roleLabel: "BASE NOTE",
+    shortDescription: "Smooth elegant musk; master fixative that extends drydown",
+    fullDescription: "A sophisticated macrocyclic musk with subtle sweet-woody and soft ambrette undertones. Provides unmatched fixative power and lasting skin persistence in oil blends.",
     volatility: "Ultra-Long Tenacity (Master Fixative)",
     intensity: "Smooth Fixative",
-    recommendedPct: "12% – 25% of formula (approx. 6–15 drops)",
-    pairsWith: ["White Musk", "Galaxolide", "Leather Accord", "Tobacco Accord"],
+    recommendedPct: "10% – 20% (approx. 10–20 drops / 0.35–0.7g)",
+    pairsWith: ["White Musk", "Galaxolide", "Leather Accord", "Tobacco Accord", "Oud Accord"],
     color: "#6366f1",
     tags: ["Fixative", "Elegant", "Longevity", "Tenacious"],
-    perfumerTip: "The ultimate natural-feeling fixative. Anchors top and heart notes so they don't evaporate prematurely."
+    perfumerTip: "The ultimate natural-feeling fixative. Anchors top notes so they don't disappear after the opening.",
+    densityGramsPerDrop: 0.036
   },
   {
     id: "leather",
     name: "Leather Accord",
-    family: "Deep",
+    family: "Dark / Leather",
     role: "BASE",
-    shortDescription: "Dry, textured depth; bold and sophisticated",
-    fullDescription: "Supple tanned saddle leather, birch tar smoke, and refined suede warmth. Imparts unmistakable confidence, luxury, and daring depth.",
+    roleLabel: "BASE NOTE",
+    shortDescription: "Dry, textured suede depth; bold and sophisticated",
+    fullDescription: "Supple tanned saddle leather, birch tar smoke, and refined suede warmth. Imparts unmistakable confidence, luxury, and daring depth to pure oil blends.",
     volatility: "Long Tenacity (Smoky Texture)",
     intensity: "Bold & Textured",
-    recommendedPct: "4% – 10% of formula (approx. 2–6 drops)",
-    pairsWith: ["Pineapple Accord", "Fresh Citrus Accord", "Tobacco Accord", "Ethylene Brassylate"],
+    recommendedPct: "3% – 8% (approx. 3–8 drops / 0.1–0.3g)",
+    pairsWith: ["Pineapple Accord", "Fresh Citrus Accord", "Tobacco Accord", "Oud Accord", "Iso E Super"],
     color: "#78350f",
     tags: ["Textured", "Bold", "Smoky", "Haute"],
-    perfumerTip: "Highly potent! 2–4 drops add masculine confidence and niche depth without overpowering."
+    perfumerTip: "Highly potent! 3–6 drops add masculine confidence and niche depth without dominating the formula.",
+    densityGramsPerDrop: 0.037
   },
   {
     id: "tobacco",
     name: "Tobacco Accord",
-    family: "Warm",
+    family: "Warm / Smoky",
     role: "BASE",
-    shortDescription: "Warm smoky sweetness; rich and sensual",
-    fullDescription: "Sun-cured golden Virginia tobacco leaf laced with roasted honey, dry tonka bean, and sweet amber smoke. Intoxicating, opulent, and magnetic.",
+    roleLabel: "BASE NOTE",
+    shortDescription: "Warm smoky sweet blonde tobacco leaves; rich and sensual",
+    fullDescription: "Sun-cured golden Virginia tobacco leaf laced with roasted honey, dry tonka bean, and sweet amber smoke. Intoxicating, opulent, and magnetic evening warmth.",
     volatility: "Long Tenacity (Sensual Sillage)",
     intensity: "Rich & Sensual",
-    recommendedPct: "4% – 12% of formula (approx. 2–8 drops)",
-    pairsWith: ["Rose Honey Accord", "Gourmand Accord", "Leather Accord", "White Musk"],
+    recommendedPct: "5% – 12% (approx. 5–12 drops / 0.2–0.45g)",
+    pairsWith: ["Vanilla Accord", "Rose Honey Accord", "Oud Accord", "Gourmand Accord", "Leather Accord"],
     color: "#92400e",
     tags: ["Smoky", "Opulent", "Sensual", "Warm"],
-    perfumerTip: "Brings mysterious evening warmth and magnetic intimacy when combined with vanilla or rose honey."
+    perfumerTip: "Brings mysterious evening warmth and magnetic intimacy when combined with vanilla or rose honey.",
+    densityGramsPerDrop: 0.036
+  },
+  {
+    id: "oud",
+    name: "Oud Accord",
+    family: "Woody / Oriental",
+    role: "BASE",
+    roleLabel: "BASE NOTE",
+    shortDescription: "Deep resinous oriental agarwood; dark luxury backbone",
+    fullDescription: "Regal agarwood resin enriched with smoky balsamic woods, warm saffron undertones, and velvet amber. The pinnacle of Eastern haute parfumerie prestige.",
+    volatility: "Ultra-Long Tenacity (Regal Sillage)",
+    intensity: "Deep & Majestic",
+    recommendedPct: "4% – 12% (approx. 4–12 drops / 0.15–0.45g)",
+    pairsWith: ["Rose Honey Accord", "Vanilla Accord", "Tobacco Accord", "Iso E Super", "Black Currant Accord"],
+    color: "#451a03",
+    tags: ["Agarwood", "Majestic", "Resinous", "Prestige"],
+    perfumerTip: "A few drops give any perfume oil an instantly expensive, regal niche aura. Blends majestically with Rose Honey and Vanilla.",
+    densityGramsPerDrop: 0.037
   }
 ];
 
+// ==========================================
+// 4 PREMIXED READY-MADE PERFUME OILS
+// ==========================================
 const READY_MADE_OILS = [
   {
     id: "gucci-flora",
     title: "Gucci Flora",
-    badge: "Premixed Ready Perfume Oil",
+    badge: "Premixed 100% Perfume Oil",
     profileCategory: "Floral & Fruity Glow",
     tagline: "Radiant, feminine bouquet of white gardenia, jasmine & sparkling pear",
     notes: {
@@ -213,17 +322,17 @@ const READY_MADE_OILS = [
       heart: "White Gardenia, Jasmine Grandiflorum, Frangipani",
       base: "Brown Sugar Accord, Indonesian Patchouli, Clean Musks"
     },
-    description: "A joyful floral signature crafted around the radiant Gardenia blossom, admired for its luminous allure and velvety sensual sillage.",
+    description: "A joyful floral signature crafted around the radiant Gardenia blossom, admired for its luminous allure and velvety sensual sillage in roll-on format.",
     idealBoosters: [
-      { id: "white-musk", label: "+ White Musk (Soft Skin Glow)" },
-      { id: "fresh-citrus", label: "+ Fresh Citrus (Crisp Sparkle)" },
+      { id: "white-musk", label: "+ White Musk (Soft Clean Skin Glow)" },
+      { id: "hedione", label: "+ Hedione (Luminous Projection)" },
       { id: "marshmallow", label: "+ Marshmallow (Fluffy Sweetness)" }
     ]
   },
   {
     id: "dior-sauvage-elixir",
     title: "Dior Sauvage Elixir",
-    badge: "Premixed Ready Perfume Oil",
+    badge: "Premixed 100% Perfume Oil",
     profileCategory: "Ultra-Concentrated Spicy Woods",
     tagline: "Bold, nocturnal elixir of intoxicating spices, lavender essence & rich woods",
     notes: {
@@ -234,14 +343,14 @@ const READY_MADE_OILS = [
     description: "An extraordinarily potent, nocturnal composition steeped in signature Sauvage freshness with an intoxicating spicy heart and a dense woody base.",
     idealBoosters: [
       { id: "pineapple", label: "+ Pineapple Accord (Aventus Fusion)" },
-      { id: "leather", label: "+ Leather Accord (Darker Depth)" },
-      { id: "galaxolide", label: "+ Galaxolide (Huge Projection)" }
+      { id: "leather", label: "+ Leather Accord (Darker Suede Depth)" },
+      { id: "oud", label: "+ Oud Accord (Regal Oriental Twist)" }
     ]
   },
   {
     id: "jpg-ultra-male",
     title: "JPG Ultra Male",
-    badge: "Premixed Ready Perfume Oil",
+    badge: "Premixed 100% Perfume Oil",
     profileCategory: "Sweet Spicy Gourmand Seduction",
     tagline: "Irresistible magnetic contrast of juicy black pear, spicy cinnamon & dark vanilla",
     notes: {
@@ -249,17 +358,17 @@ const READY_MADE_OILS = [
       heart: "Cinnamon, Caraway, Clary Sage",
       base: "Black Vanilla Husk, Amber, Cedarwood, Patchouli"
     },
-    description: "An intoxicating oriental gourmand designed for magnetic evening presence. Sweet, bold, deliciously addictive with unrivaled trail.",
+    description: "An intoxicating oriental gourmand designed for magnetic evening presence. Sweet, bold, deliciously addictive with unrivaled roll-on trail.",
     idealBoosters: [
-      { id: "gourmand", label: "+ Gourmand Accord (Extra Vanilla/Praline)" },
-      { id: "fresh-citrus", label: "+ Fresh Citrus (Fresh Zest Lift)" },
-      { id: "tobacco", label: "+ Tobacco Accord (Smoky Contrast)" }
+      { id: "vanilla", label: "+ Vanilla Accord (Rich Bourbon Density)" },
+      { id: "tobacco", label: "+ Tobacco Accord (Smoky Contrast)" },
+      { id: "fresh-citrus", label: "+ Fresh Citrus (Crisp Sparkle)" }
     ]
   },
   {
     id: "dior-blooming-bouquet",
     title: "Dior Blooming Bouquet",
-    badge: "Premixed Ready Perfume Oil",
+    badge: "Premixed 100% Perfume Oil",
     profileCategory: "Sparkling Tender Floral",
     tagline: "Delicate couture dress of thousands of fresh peonies, Damask rose & white musks",
     notes: {
@@ -270,119 +379,136 @@ const READY_MADE_OILS = [
     description: "A delicate, romantic embrace of freshly blossomed peonies and soft roses faceted by the sparkle of Calabrian bergamot and enveloped in a lacy musk veil.",
     idealBoosters: [
       { id: "lotus", label: "+ Lotus Accord (Airy Aquatic Glow)" },
-      { id: "white-musk", label: "+ White Musk (Clean Powder)" },
+      { id: "hedione", label: "+ Hedione (Dewy Airiness)" },
       { id: "rose-honey", label: "+ Rose Honey (Deeper Nectar)" }
     ]
   }
 ];
 
+// ==========================================
+// BESPOKE OIL FORMULATION STARTING PRESETS (100 Drops Total)
+// ==========================================
 const STARTING_PRESETS = [
   {
-    id: "fresh-fruity-woods",
-    title: "Fresh Fruity Woods",
-    tagline: "Bold pineapple, crisp citrus, clean musks & subtle smoky leather",
+    id: "royal-oud-vanilla",
+    title: "Royal Oud & Smoked Vanilla",
+    tagline: "Regal agarwood, bourbon vanilla, honeyed tobacco & velvety Iso E Super",
     category: "custom_accord",
-    defaultConcentration: "balanced",
-    description: "A charismatic modern archetype. Opens with sparkling citrus and pineapple, layered over tart blackcurrant, anchored by clean diffusive musks and a hint of smoky leather.",
+    defaultTarget: 100,
+    description: "A rich, regal Middle Eastern niche signature. Balances deep dark agarwood resin with luscious bourbon vanilla and warm honeyed tobacco, softened by Iso E Super.",
     drops: {
-      "fresh-citrus": 12,
-      "pineapple": 14,
-      "black-currant": 8,
-      "white-musk": 8,
-      "galaxolide": 8,
-      "ethylene-brassylate": 6,
-      "leather": 2,
-      "tobacco": 2
-    }
-  },
-  {
-    id: "soft-floral-musk",
-    title: "Soft Floral Musk",
-    tagline: "Dewy lotus, opulent white petals, rose honey & soft marshmallow cloud",
-    category: "custom_accord",
-    defaultConcentration: "balanced",
-    description: "An enchanting bouquet of dewy lotus and opulent white florals kissed by rose honey and fluffy marshmallow, floating on a luminous clean musk cloud.",
-    drops: {
-      "fresh-citrus": 6,
-      "pineapple": 6,
-      "black-currant": 4,
-      "lotus": 10,
-      "white-floral": 12,
-      "rose-honey": 8,
-      "marshmallow": 6,
-      "white-musk": 5,
-      "galaxolide": 3
-    }
-  },
-  {
-    id: "golden-amber-gourmand",
-    title: "Golden Amber Gourmand",
-    tagline: "Warm honeyed rose, praline dessert sweetness, tobacco smoke & velvet musks",
-    category: "custom_accord",
-    defaultConcentration: "intense",
-    description: "An indulgent evening blend of roasted gourmand praline, honeyed rose, and fluffy marshmallow enriched by warm tobacco and enduring ethical musks.",
-    drops: {
-      "fresh-citrus": 4,
-      "rose-honey": 14,
-      "gourmand": 12,
-      "marshmallow": 10,
-      "tobacco": 6,
-      "white-musk": 6,
+      "black-currant": 10,
+      "fresh-citrus": 8,
+      "rose-honey": 12,
+      "hedione": 10,
+      "vanilla": 18,
+      "tobacco": 12,
+      "oud": 10,
+      "iso-e-super": 12,
       "ethylene-brassylate": 8
     }
   },
   {
-    id: "velvet-skin-musk",
-    title: "Velvet Skin Musk",
-    tagline: "Understated intimacy, soft clean halo & room-filling skin-scent sillage",
+    id: "aventus-suede-pineapple",
+    title: "Solar Pineapple & Tuscan Suede",
+    tagline: "Vibrant golden pineapple, sparkling citrus, dry textured leather & diffusive musks",
     category: "custom_accord",
-    defaultConcentration: "airy",
-    description: "For the minimalist purist. An intimate, diffusive aura of pure Galaxolide, White Musk, and Ethylene Brassylate with a subtle dewy lotus touch.",
+    defaultTarget: 100,
+    description: "A charismatic, masculine-leaning modern luxury profile. Juicy tropical pineapple and bergamot meet confident dark suede leather, amplified by Galaxolide and Iso E Super.",
+    drops: {
+      "pineapple": 22,
+      "fresh-citrus": 14,
+      "black-currant": 8,
+      "hedione": 10,
+      "leather": 6,
+      "iso-e-super": 16,
+      "white-musk": 12,
+      "galaxolide": 12
+    }
+  },
+  {
+    id: "luminous-floral-nectar",
+    title: "Luminous White Floral & Honey",
+    tagline: "Opulent gardenia, honeyed Damask rose, dewy lotus & radiant Hedione",
+    category: "custom_accord",
+    defaultTarget: 100,
+    description: "An ultra-luxurious, feminine bouquet. Creamy white tuberose and gardenia bathed in artisanal rose honey nectar and luminous Hedione, floating on a clean skin musk cloud.",
+    drops: {
+      "fresh-citrus": 10,
+      "lotus": 14,
+      "white-floral": 18,
+      "rose-honey": 14,
+      "hedione": 14,
+      "marshmallow": 10,
+      "white-musk": 10,
+      "galaxolide": 10
+    }
+  },
+  {
+    id: "cozy-praline-cloud",
+    title: "Cozy Gourmand & Fluffy Cloud",
+    tagline: "Caramelized praline, fluffy marshmallow, bourbon vanilla & sweet macrocyclic musk",
+    category: "custom_accord",
+    defaultTarget: 100,
+    description: "The ultimate edible comfort. Spun sugar marshmallow and warm caramelized praline rounded by rich Madagascar vanilla and ethical skin musks.",
     drops: {
       "fresh-citrus": 6,
-      "lotus": 6,
-      "white-musk": 18,
-      "galaxolide": 16,
-      "ethylene-brassylate": 14
+      "pineapple": 6,
+      "marshmallow": 16,
+      "gourmand": 18,
+      "vanilla": 20,
+      "white-musk": 16,
+      "ethylene-brassylate": 18
+    }
+  },
+  {
+    id: "minimalist-molecule-halo",
+    title: "Velvet Second-Skin Molecule",
+    tagline: "Iso E Super, radiant Hedione, diffusive Galaxolide & intimate White Musk",
+    category: "custom_accord",
+    defaultTarget: 100,
+    description: "For the contemporary minimalist. An intoxicating clean pheromonic halo that melts into personal body heat, creating an unforgettable intimate trail.",
+    drops: {
+      "fresh-citrus": 8,
+      "lotus": 8,
+      "hedione": 16,
+      "iso-e-super": 26,
+      "white-musk": 20,
+      "galaxolide": 12,
+      "ethylene-brassylate": 10
     }
   }
 ];
 
-const CONCENTRATION_PROFILES = [
+// ==========================================
+// WORKSHOP TARGET DROP PROFILES (10ml Oil Bottle)
+// ==========================================
+const WORKSHOP_TARGET_PROFILES = [
   {
-    id: "airy",
-    name: "Airy & Diffusive",
-    subtitle: "High Sillage & Lift",
-    description: "Bright, radiant scent cloud that dances off skin. Sparkling and fresh for everyday wear.",
-    targetDrops: 40,
-    oilConcentration: "20%",
-    oilVolume: "2.0 mL",
-    ethanolVolume: "8.0 mL",
-    presenceFeel: "High Sillage / Diffusive",
-    badge: "Eau de Parfum (20%)"
-  },
-  {
-    id: "balanced",
-    name: "Signature Balance",
-    subtitle: "All-Day Presence",
-    description: "The master perfumer's golden ratio. Harmonious blend of radiant projection and all-day presence.",
+    id: "starter_60",
+    name: "Light Concentré (60 Drops)",
+    subtitle: "~2.10 Grams · Subtly Wearable",
+    description: "A gentle roll-on concentration. Leaves room for delicate re-application throughout the day.",
     targetDrops: 60,
-    oilConcentration: "30%",
-    oilVolume: "3.0 mL",
-    ethanolVolume: "7.0 mL",
-    presenceFeel: "Balanced / Radiant & Lasting",
-    badge: "Extrait de Parfum (30%)"
+    approxGrams: 2.10,
+    badge: "60 Drops · 2.1g"
   },
   {
-    id: "intense",
-    name: "Intense & Intimate",
-    subtitle: "Pure Extrait Trail",
-    description: "Ultra-concentrated luxury. Rich velvety texture with deep magnetic trail that lingers on skin.",
-    targetDrops: 80,
-    oilConcentration: "40%",
-    oilVolume: "4.0 mL",
-    ethanolVolume: "6.0 mL",
-    presenceFeel: "Deep & Intimate Trail",
-    badge: "Parfum Intense (40%)"
+    id: "golden_100",
+    name: "Golden Master Balance (100 Drops)",
+    subtitle: "~3.50 Grams · 1 Drop = Exactly 1%",
+    description: "The official master workshop ratio. Each drop equals exactly 1.0% of your formula for intuitive math!",
+    targetDrops: 100,
+    approxGrams: 3.50,
+    badge: "100 Drops · 3.5g (Recommended)"
+  },
+  {
+    id: "attar_120",
+    name: "Pure Attar Elixir (120 Drops)",
+    subtitle: "~4.20 Grams · Maximum Density",
+    description: "Ultra-concentrated pure oil luxury. Maximum depth, heavy tenacity, and formidable skin longevity.",
+    targetDrops: 120,
+    approxGrams: 4.20,
+    badge: "120 Drops · 4.2g"
   }
 ];
