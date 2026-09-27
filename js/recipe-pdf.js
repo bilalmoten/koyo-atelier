@@ -62,7 +62,7 @@
         if(changes.length>4){text(page,`Plus ${changes.length-4} other changes. Full amounts are listed above.`,48,y,9,sans,muted);y-=15;}
       }else if(analysis.rows.length){text(page,'YOUR RECIPE',48,y,8,bold,gold);y=wrapped(page,bottle.mode==='complete'?'This is the fixed recipe followed during the weighing checklist. Amounts are planned additions, not independently measured records.':'This recipe is a plan. Finish and review it before weighing. No extra trial bottle is required.',48,y-20,490,9,sans,muted);}
       line(page,110);
-      wrapped(page,'Conversions are estimates using 0.96 g/mL and 0.03 g/drop. Materials and droppers vary; the 9.60 g workshop target does not guarantee an exact 10 mL fill. Follow your host\'s bottle-fill and material-use guidance.',48,94,499,8,sans,muted);
+      wrapped(page,'Workshop guide: 10 g is approximately 10 mL or 300 drops. Volume and drop counts are estimates.',48,94,499,8,sans,muted);
       text(page,'KOYO ATELIER',48,34,8,bold,gold);text(page,`${id} / 2`,525,34,8,sans,muted);
     }
     return doc.save();

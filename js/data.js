@@ -1,6 +1,6 @@
 /**
  * KOYO Perfume Atelier - Data Repository (10ml Pure Perfume Oil Edition)
- * Master formulas, 17-accord database, single-category olfactory pyramid, and ready-made oils.
+ * 17-accord database and scent descriptions.
  * OIL ONLY Workshop: No ethanol / alcohol. Pure fragrance oils measured in drops and grams.
  */
 
@@ -307,257 +307,25 @@ const ACCORDS_DATA = [
   }
 ];
 
-// ==========================================
-// 4 PREMIXED READY-MADE PERFUME OILS
-// ==========================================
-const READY_MADE_OILS = [
-  {
-    id: "gucci-flora",
-    title: "Gucci Flora",
-    badge: "Premixed 100% Perfume Oil",
-    profileCategory: "Floral & Fruity Glow",
-    tagline: "Radiant, feminine bouquet of white gardenia, jasmine & sparkling pear",
-    notes: {
-      top: "Pear Blossom, Italian Mandarin, Red Berries",
-      heart: "White Gardenia, Jasmine Grandiflorum, Frangipani",
-      base: "Brown Sugar Accord, Indonesian Patchouli, Clean Musks"
-    },
-    description: "A joyful floral signature crafted around the radiant Gardenia blossom, admired for its luminous allure and velvety sensual sillage in roll-on format.",
-    idealBoosters: [
-      { id: "white-musk", label: "+ White Musk (Soft Clean Skin Glow)" },
-      { id: "hedione", label: "+ Hedione (Luminous Projection)" },
-      { id: "marshmallow", label: "+ Marshmallow (Fluffy Sweetness)" }
-    ]
-  },
-  {
-    id: "dior-sauvage-elixir",
-    title: "Dior Sauvage Elixir",
-    badge: "Premixed 100% Perfume Oil",
-    profileCategory: "Ultra-Concentrated Spicy Woods",
-    tagline: "Bold, nocturnal elixir of intoxicating spices, lavender essence & rich woods",
-    notes: {
-      top: "Nutmeg, Cinnamon, Cardamom, Zesty Grapefruit",
-      heart: "Custom Lavender Essence, Coumarin",
-      base: "Licorice, Sandalwood, Haitian Vetiver, Rich Amber"
-    },
-    description: "An extraordinarily potent, nocturnal composition steeped in signature Sauvage freshness with an intoxicating spicy heart and a dense woody base.",
-    idealBoosters: [
-      { id: "pineapple", label: "+ Pineapple Accord (Aventus Fusion)" },
-      { id: "leather", label: "+ Leather Accord (Darker Suede Depth)" },
-      { id: "oud", label: "+ Oud Accord (Regal Oriental Twist)" }
-    ]
-  },
-  {
-    id: "jpg-ultra-male",
-    title: "JPG Ultra Male",
-    badge: "Premixed 100% Perfume Oil",
-    profileCategory: "Sweet Spicy Gourmand Seduction",
-    tagline: "Irresistible magnetic contrast of juicy black pear, spicy cinnamon & dark vanilla",
-    notes: {
-      top: "Juicy Pear, Black Lavender, Mint, Bergamot, Lemon",
-      heart: "Cinnamon, Caraway, Clary Sage",
-      base: "Black Vanilla Husk, Amber, Cedarwood, Patchouli"
-    },
-    description: "An intoxicating oriental gourmand designed for magnetic evening presence. Sweet, bold, deliciously addictive with unrivaled roll-on trail.",
-    idealBoosters: [
-      { id: "vanilla", label: "+ Vanilla Accord (Rich Bourbon Density)" },
-      { id: "tobacco", label: "+ Tobacco Accord (Smoky Contrast)" },
-      { id: "fresh-citrus", label: "+ Fresh Citrus (Crisp Sparkle)" }
-    ]
-  },
-  {
-    id: "dior-blooming-bouquet",
-    title: "Dior Blooming Bouquet",
-    badge: "Premixed 100% Perfume Oil",
-    profileCategory: "Sparkling Tender Floral",
-    tagline: "Delicate couture dress of thousands of fresh peonies, Damask rose & white musks",
-    notes: {
-      top: "Calabrian Bergamot, Sweet Pea",
-      heart: "Pink Peony, Damask Rose, Apricot, Peach",
-      base: "Lacy White Musk, Soft Cashmeran"
-    },
-    description: "A delicate, romantic embrace of freshly blossomed peonies and soft roses faceted by the sparkle of Calabrian bergamot and enveloped in a lacy musk veil.",
-    idealBoosters: [
-      { id: "lotus", label: "+ Lotus Accord (Airy Aquatic Glow)" },
-      { id: "hedione", label: "+ Hedione (Dewy Airiness)" },
-      { id: "rose-honey", label: "+ Rose Honey (Deeper Nectar)" }
-    ]
-  }
-];
 
-// ==========================================
-// BESPOKE OIL FORMULATION STARTING PRESETS (9.60 g / 10.0 mL Total)
-// ==========================================
-const STARTING_PRESETS = [
-  {
-    id: "royal-oud-vanilla",
-    title: "Royal Oud & Smoked Vanilla",
-    tagline: "Regal agarwood, bourbon vanilla, honeyed tobacco & velvety Iso E Super",
-    category: "custom_accord",
-    defaultTarget: 9.60,
-    description: "A rich, regal Middle Eastern niche signature. Balances deep dark agarwood resin with luscious bourbon vanilla and warm honeyed tobacco, softened by Iso E Super.",
-    amounts: {
-      "black-currant": 0.96,
-      "fresh-citrus": 0.77,
-      "rose-honey": 1.15,
-      "hedione": 0.96,
-      "vanilla": 1.73,
-      "tobacco": 1.15,
-      "oud": 0.96,
-      "iso-e-super": 1.15,
-      "ethylene-brassylate": 0.77
-    },
-    drops: {
-      "black-currant": 32,
-      "fresh-citrus": 26,
-      "rose-honey": 38,
-      "hedione": 32,
-      "vanilla": 58,
-      "tobacco": 38,
-      "oud": 32,
-      "iso-e-super": 38,
-      "ethylene-brassylate": 26
-    }
-  },
-  {
-    id: "aventus-suede-pineapple",
-    title: "Solar Pineapple & Tuscan Suede",
-    tagline: "Vibrant golden pineapple, sparkling citrus, dry textured leather & diffusive musks",
-    category: "custom_accord",
-    defaultTarget: 9.60,
-    description: "A charismatic, masculine-leaning modern luxury profile. Juicy tropical pineapple and bergamot meet confident dark suede leather, amplified by Galaxolide and Iso E Super.",
-    amounts: {
-      "pineapple": 2.11,
-      "fresh-citrus": 1.34,
-      "black-currant": 0.77,
-      "hedione": 0.96,
-      "leather": 0.58,
-      "iso-e-super": 1.54,
-      "white-musk": 1.15,
-      "galaxolide": 1.15
-    },
-    drops: {
-      "pineapple": 70,
-      "fresh-citrus": 45,
-      "black-currant": 26,
-      "hedione": 32,
-      "leather": 19,
-      "iso-e-super": 51,
-      "white-musk": 38,
-      "galaxolide": 39
-    }
-  },
-  {
-    id: "luminous-floral-nectar",
-    title: "Luminous White Floral & Honey",
-    tagline: "Opulent gardenia, honeyed Damask rose, dewy lotus & radiant Hedione",
-    category: "custom_accord",
-    defaultTarget: 9.60,
-    description: "An ultra-luxurious, feminine bouquet. Creamy white tuberose and gardenia bathed in artisanal rose honey nectar and luminous Hedione, floating on a clean skin musk cloud.",
-    amounts: {
-      "fresh-citrus": 0.96,
-      "lotus": 1.34,
-      "white-floral": 1.73,
-      "rose-honey": 1.34,
-      "hedione": 1.34,
-      "marshmallow": 0.96,
-      "white-musk": 0.96,
-      "galaxolide": 0.97
-    },
-    drops: {
-      "fresh-citrus": 32,
-      "lotus": 45,
-      "white-floral": 58,
-      "rose-honey": 45,
-      "hedione": 45,
-      "marshmallow": 32,
-      "white-musk": 32,
-      "galaxolide": 31
-    }
-  },
-  {
-    id: "cozy-praline-cloud",
-    title: "Cozy Gourmand & Fluffy Cloud",
-    tagline: "Caramelized praline, fluffy marshmallow, bourbon vanilla & sweet macrocyclic musk",
-    category: "custom_accord",
-    defaultTarget: 9.60,
-    description: "The ultimate edible comfort. Spun sugar marshmallow and warm caramelized praline rounded by rich Madagascar vanilla and ethical skin musks.",
-    amounts: {
-      "fresh-citrus": 0.58,
-      "pineapple": 0.58,
-      "marshmallow": 1.54,
-      "gourmand": 1.73,
-      "vanilla": 1.92,
-      "white-musk": 1.54,
-      "ethylene-brassylate": 1.71
-    },
-    drops: {
-      "fresh-citrus": 19,
-      "pineapple": 19,
-      "marshmallow": 51,
-      "gourmand": 58,
-      "vanilla": 64,
-      "white-musk": 51,
-      "ethylene-brassylate": 58
-    }
-  },
-  {
-    id: "minimalist-molecule-halo",
-    title: "Velvet Second-Skin Molecule",
-    tagline: "Iso E Super, radiant Hedione, diffusive Galaxolide & intimate White Musk",
-    category: "custom_accord",
-    defaultTarget: 9.60,
-    description: "For the contemporary minimalist. An intoxicating clean pheromonic halo that melts into personal body heat, creating an unforgettable intimate trail.",
-    amounts: {
-      "fresh-citrus": 0.77,
-      "lotus": 0.77,
-      "hedione": 1.54,
-      "iso-e-super": 2.50,
-      "white-musk": 1.92,
-      "galaxolide": 1.15,
-      "ethylene-brassylate": 0.95
-    },
-    drops: {
-      "fresh-citrus": 26,
-      "lotus": 26,
-      "hedione": 51,
-      "iso-e-super": 83,
-      "white-musk": 64,
-      "galaxolide": 38,
-      "ethylene-brassylate": 32
-    }
-  }
-];
-
-// ==========================================
-// WORKSHOP TARGET DROP PROFILES (10ml Oil Bottle)
-// ==========================================
-const WORKSHOP_TARGET_PROFILES = [
-  {
-    id: "starter_60",
-    name: "Light Concentré (60 Drops)",
-    subtitle: "~2.10 Grams · Subtly Wearable",
-    description: "A gentle roll-on concentration. Leaves room for delicate re-application throughout the day.",
-    targetDrops: 60,
-    approxGrams: 2.10,
-    badge: "60 Drops · 2.1g"
-  },
-  {
-    id: "golden_100",
-    name: "Golden Master Balance (100 Drops)",
-    subtitle: "~3.50 Grams · 1 Drop = Exactly 1%",
-    description: "The official master workshop ratio. Each drop equals exactly 1.0% of your formula for intuitive math!",
-    targetDrops: 100,
-    approxGrams: 3.50,
-    badge: "100 Drops · 3.5g (Recommended)"
-  },
-  {
-    id: "attar_120",
-    name: "Pure Attar Elixir (120 Drops)",
-    subtitle: "~4.20 Grams · Maximum Density",
-    description: "Ultra-concentrated pure oil luxury. Maximum depth, heavy tenacity, and formidable skin longevity.",
-    targetDrops: 120,
-    approxGrams: 4.20,
-    badge: "120 Drops · 4.2g"
-  }
-];
+// Hidden search vocabulary: scent associations, moods, seasons and common names.
+const SCENT_SEARCH_TAGS = {
+  'fresh-citrus': 'sour tart tangy sharp acidic zest zesty lemon lime orange mandarin bergamot grapefruit citrus fresh refreshing cool cooling crisp clean bright sunny sunshine summer summery spring daytime morning energetic uplifting sparkling light juicy beach vacation holiday sporty unisex lemonade nimbu khatta',
+  pineapple: 'sour tart tangy sweet juicy fruity fruit tropical exotic yellow sunny sunshine summer summery beach vacation holiday playful cheerful fun bright fresh cocktail island ananas sweet-sour',
+  'black-currant': 'sour tart tangy sharp fruity fruit berry berries dark purple cassis blackcurrant currant green leafy juicy bold modern summer spring autumn fall jam punch sophisticated fruity-sour',
+  lotus: 'cool cooling fresh refreshing watery aquatic water rain rainy dewy dew breezy airy light delicate soft floral flower flowers clean serene calm calming peaceful spa zen relaxing spring summer summery morning daytime ocean sea beach green petals transparent',
+  'white-floral': 'floral flower flowers bouquet jasmine gardenia tuberose white creamy lush rich soft silky elegant classic polished romantic romance wedding bridal feminine spring summer evening garden blooming blossom blossoms',
+  'rose-honey': 'rose rosy floral flower flowers petals honey nectar sweet warm warmth cozy cosy romantic romance date night evening wedding bridal autumn fall winter sensual rich velvety soft golden gulab shehad',
+  hedione: 'jasmine floral flower flowers airy air light transparent fresh refreshing cool clean bright luminous radiant breezy dewy soft subtle spring summer summery daytime morning diffusion booster lift spacious modern unisex',
+  marshmallow: 'sweet sugar sugary candy confection dessert vanilla powder powdery fluffy soft cozy cosy comforting comfort playful nostalgic pastel pink feminine romantic winter autumn fall cotton candy cloud',
+  gourmand: 'sweet sugar sugary dessert edible caramel praline hazelnut nutty nuts roasted toasted creamy rich warm warmth cozy cosy comforting comfort indulgent bakery cake candy chocolate gourmand autumn fall winter evening date night',
+  vanilla: 'sweet vanilla creamy cream milky smooth soft warm warmth cozy cosy comforting comfort dessert bakery cake cookies cookie ice cream bourbon amber rich sensual romantic winter autumn fall evening date night',
+  'iso-e-super': 'wood woods woody cedar cedarwood amber ambergris smooth velvety dry transparent airy subtle minimalist minimal modern molecule skin second skin intimate clean soft unisex masculine office everyday daytime autumn fall',
+  'white-musk': 'musk musky clean fresh refreshing cool soft smooth skin intimate subtle minimalist minimal everyday office daytime linen laundry cotton soap soapy shower powder powdery cozy cosy comforting comfort spring summer summery unisex',
+  galaxolide: 'musk musky clean laundry linen cotton soap soapy soft fluffy smooth sweet floral airy radiant diffusive diffusion volume powder powdery fresh everyday office spring summer unisex',
+  'ethylene-brassylate': 'musk musky soft smooth sweet subtle elegant warm skin intimate woody ambrette clean powder powdery round rounding gentle comforting cozy cosy drydown fixative lasting longevity base everyday unisex winter',
+  leather: 'leather leathery suede dry textured smoky smokey smoke birch saddle dark bold daring deep depth rich warm rugged masculine sophisticated niche autumn fall winter evening night jacket',
+  tobacco: 'tobacco smoky smokey smoke warm warmth sweet dark deep rich cozy cosy dry aromatic golden honey leaves leaf autumn fall winter evening night masculine sophisticated lounge',
+  oud: 'oud oudh wood woods woody agarwood resin resinous dark deep depth rich warm warmth smoky smokey smoke earthy bold intense oriental eastern arabic arabian attar luxury incense bakhoor autumn fall winter evening night unisex masculine'
+};
+for (const note of ACCORDS_DATA) note.searchTags = SCENT_SEARCH_TAGS[note.id].split(' ');

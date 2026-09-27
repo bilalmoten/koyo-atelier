@@ -184,8 +184,8 @@ def main():
     print_ascii_qr(phone_url)
 
     print("\n✨ Workshop Features Enabled:")
-    print("  • Two bottle recipes with grams-first planning and starter blends")
-    print("  • 9.60 g workshop target; volume and drops are estimates")
+    print("  • Two bottle recipes with grams-first planning from your own notes")
+    print("  • 10 g workshop target; volume and drops are estimates")
     print("  • Sequential weighing checklist with cumulative scale targets")
     print("  • Copy Bottle 1 and compare your Bottle 2 changes")
     print("  • Branded PDF containing both recipes")

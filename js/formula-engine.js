@@ -1,7 +1,7 @@
 /* Grams are authoritative. Volume and drops are estimates, never fill measurements. */
 (function (root) {
   'use strict';
-  const TARGET = 960;
+  const TARGET = 1000;
   const STORAGE_KEY = 'koyo_workshop_v3';
   const clone = value => JSON.parse(JSON.stringify(value));
   const cents = value => Math.round((Number(value) + Number.EPSILON) * 100);
@@ -31,11 +31,11 @@
         .map(a => {
           const weight = cents(clean[a.id]); roles[a.role] += weight; cumulative += weight;
           return { ...a, grams: weight / 100, percentage: totalCents ? weight / totalCents * 100 : 0,
-            cumulative: cumulative / 100, ml: weight / 100 / 0.96, drops: Math.round(weight / 3) };
+            cumulative: cumulative / 100, ml: weight / 100, drops: Math.round(weight * 0.3) };
         });
       return { rows, totalCents, totalGrams: totalCents / 100, targetGrams: TARGET / 100,
-        remaining: (TARGET - totalCents) / 100, totalMl: totalCents / 100 / 0.96,
-        totalDrops: Math.round(totalCents / 3), fillPercent: totalCents / TARGET * 100,
+        remaining: (TARGET - totalCents) / 100, totalMl: totalCents / 100,
+        totalDrops: Math.round(totalCents * 0.3), fillPercent: totalCents / TARGET * 100,
         ready: totalCents === TARGET && rows.length > 0 && !Object.values(clean).some(g => g === 0),
         roles: Object.fromEntries(Object.entries(roles).map(([k, n]) => [k, totalCents ? n / totalCents * 100 : 0])) };
     }
@@ -71,7 +71,9 @@
           baseline: b.baseline ? this.cleanAmounts(b.baseline) : null };
         if (b.mixing?.amounts && ['mixing', 'complete'].includes(b.mode)) {
           const amounts = this.cleanAmounts(b.mixing.amounts);
-          if (this.analyzeFormula(amounts).ready) {
+          // Preserve already-started 9.60 g recipes without changing poured quantities.
+          const snapshot = this.analyzeFormula(amounts);
+          if ([960, TARGET].includes(snapshot.totalCents) && !Object.values(amounts).some(g=>g===0)) {
             const ids = this.analyzeFormula(amounts).rows.map(row=>row.id);
             const savedChecks = new Set(Array.isArray(b.mixing.checked) ? b.mixing.checked : []);
             const firstMissing = ids.findIndex(id=>!savedChecks.has(id));
