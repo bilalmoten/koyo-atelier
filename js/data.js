@@ -386,7 +386,7 @@ const READY_MADE_OILS = [
 ];
 
 // ==========================================
-// BESPOKE OIL FORMULATION STARTING PRESETS (100 Drops Total)
+// BESPOKE OIL FORMULATION STARTING PRESETS (9.60 g / 10.0 mL Total)
 // ==========================================
 const STARTING_PRESETS = [
   {
@@ -394,18 +394,29 @@ const STARTING_PRESETS = [
     title: "Royal Oud & Smoked Vanilla",
     tagline: "Regal agarwood, bourbon vanilla, honeyed tobacco & velvety Iso E Super",
     category: "custom_accord",
-    defaultTarget: 100,
+    defaultTarget: 9.60,
     description: "A rich, regal Middle Eastern niche signature. Balances deep dark agarwood resin with luscious bourbon vanilla and warm honeyed tobacco, softened by Iso E Super.",
+    amounts: {
+      "black-currant": 0.96,
+      "fresh-citrus": 0.77,
+      "rose-honey": 1.15,
+      "hedione": 0.96,
+      "vanilla": 1.73,
+      "tobacco": 1.15,
+      "oud": 0.96,
+      "iso-e-super": 1.15,
+      "ethylene-brassylate": 0.77
+    },
     drops: {
-      "black-currant": 10,
-      "fresh-citrus": 8,
-      "rose-honey": 12,
-      "hedione": 10,
-      "vanilla": 18,
-      "tobacco": 12,
-      "oud": 10,
-      "iso-e-super": 12,
-      "ethylene-brassylate": 8
+      "black-currant": 32,
+      "fresh-citrus": 26,
+      "rose-honey": 38,
+      "hedione": 32,
+      "vanilla": 58,
+      "tobacco": 38,
+      "oud": 32,
+      "iso-e-super": 38,
+      "ethylene-brassylate": 26
     }
   },
   {
@@ -413,17 +424,27 @@ const STARTING_PRESETS = [
     title: "Solar Pineapple & Tuscan Suede",
     tagline: "Vibrant golden pineapple, sparkling citrus, dry textured leather & diffusive musks",
     category: "custom_accord",
-    defaultTarget: 100,
+    defaultTarget: 9.60,
     description: "A charismatic, masculine-leaning modern luxury profile. Juicy tropical pineapple and bergamot meet confident dark suede leather, amplified by Galaxolide and Iso E Super.",
+    amounts: {
+      "pineapple": 2.11,
+      "fresh-citrus": 1.34,
+      "black-currant": 0.77,
+      "hedione": 0.96,
+      "leather": 0.58,
+      "iso-e-super": 1.54,
+      "white-musk": 1.15,
+      "galaxolide": 1.15
+    },
     drops: {
-      "pineapple": 22,
-      "fresh-citrus": 14,
-      "black-currant": 8,
-      "hedione": 10,
-      "leather": 6,
-      "iso-e-super": 16,
-      "white-musk": 12,
-      "galaxolide": 12
+      "pineapple": 70,
+      "fresh-citrus": 45,
+      "black-currant": 26,
+      "hedione": 32,
+      "leather": 19,
+      "iso-e-super": 51,
+      "white-musk": 38,
+      "galaxolide": 39
     }
   },
   {
@@ -431,17 +452,27 @@ const STARTING_PRESETS = [
     title: "Luminous White Floral & Honey",
     tagline: "Opulent gardenia, honeyed Damask rose, dewy lotus & radiant Hedione",
     category: "custom_accord",
-    defaultTarget: 100,
+    defaultTarget: 9.60,
     description: "An ultra-luxurious, feminine bouquet. Creamy white tuberose and gardenia bathed in artisanal rose honey nectar and luminous Hedione, floating on a clean skin musk cloud.",
+    amounts: {
+      "fresh-citrus": 0.96,
+      "lotus": 1.34,
+      "white-floral": 1.73,
+      "rose-honey": 1.34,
+      "hedione": 1.34,
+      "marshmallow": 0.96,
+      "white-musk": 0.96,
+      "galaxolide": 0.97
+    },
     drops: {
-      "fresh-citrus": 10,
-      "lotus": 14,
-      "white-floral": 18,
-      "rose-honey": 14,
-      "hedione": 14,
-      "marshmallow": 10,
-      "white-musk": 10,
-      "galaxolide": 10
+      "fresh-citrus": 32,
+      "lotus": 45,
+      "white-floral": 58,
+      "rose-honey": 45,
+      "hedione": 45,
+      "marshmallow": 32,
+      "white-musk": 32,
+      "galaxolide": 31
     }
   },
   {
@@ -449,16 +480,25 @@ const STARTING_PRESETS = [
     title: "Cozy Gourmand & Fluffy Cloud",
     tagline: "Caramelized praline, fluffy marshmallow, bourbon vanilla & sweet macrocyclic musk",
     category: "custom_accord",
-    defaultTarget: 100,
+    defaultTarget: 9.60,
     description: "The ultimate edible comfort. Spun sugar marshmallow and warm caramelized praline rounded by rich Madagascar vanilla and ethical skin musks.",
+    amounts: {
+      "fresh-citrus": 0.58,
+      "pineapple": 0.58,
+      "marshmallow": 1.54,
+      "gourmand": 1.73,
+      "vanilla": 1.92,
+      "white-musk": 1.54,
+      "ethylene-brassylate": 1.71
+    },
     drops: {
-      "fresh-citrus": 6,
-      "pineapple": 6,
-      "marshmallow": 16,
-      "gourmand": 18,
-      "vanilla": 20,
-      "white-musk": 16,
-      "ethylene-brassylate": 18
+      "fresh-citrus": 19,
+      "pineapple": 19,
+      "marshmallow": 51,
+      "gourmand": 58,
+      "vanilla": 64,
+      "white-musk": 51,
+      "ethylene-brassylate": 58
     }
   },
   {
@@ -466,16 +506,25 @@ const STARTING_PRESETS = [
     title: "Velvet Second-Skin Molecule",
     tagline: "Iso E Super, radiant Hedione, diffusive Galaxolide & intimate White Musk",
     category: "custom_accord",
-    defaultTarget: 100,
+    defaultTarget: 9.60,
     description: "For the contemporary minimalist. An intoxicating clean pheromonic halo that melts into personal body heat, creating an unforgettable intimate trail.",
+    amounts: {
+      "fresh-citrus": 0.77,
+      "lotus": 0.77,
+      "hedione": 1.54,
+      "iso-e-super": 2.50,
+      "white-musk": 1.92,
+      "galaxolide": 1.15,
+      "ethylene-brassylate": 0.95
+    },
     drops: {
-      "fresh-citrus": 8,
-      "lotus": 8,
-      "hedione": 16,
-      "iso-e-super": 26,
-      "white-musk": 20,
-      "galaxolide": 12,
-      "ethylene-brassylate": 10
+      "fresh-citrus": 26,
+      "lotus": 26,
+      "hedione": 51,
+      "iso-e-super": 83,
+      "white-musk": 64,
+      "galaxolide": 38,
+      "ethylene-brassylate": 32
     }
   }
 ];

@@ -5,25 +5,28 @@
 
 :root {
   /* Obsidian & Velvet Dark Canvas */
-  --bg-main: #0c100e;
-  --bg-surface: #141b18;
-  --bg-surface-elevated: #1a2420;
-  --bg-card: rgba(22, 31, 27, 0.88);
-  --bg-card-hover: rgba(28, 40, 35, 0.96);
-  --bg-glass: rgba(18, 26, 22, 0.75);
+  --bg-main: #08090c;
+  --bg-surface: #0f1217;
+  --bg-surface-elevated: #161b22;
+  --bg-card: rgba(16, 20, 26, 0.85);
+  --bg-card-hover: rgba(22, 28, 36, 0.95);
+  --bg-glass: rgba(13, 16, 22, 0.78);
 
-  /* Gold Borders & Accents */
-  --border-subtle: rgba(212, 175, 55, 0.16);
-  --border-medium: rgba(212, 175, 55, 0.38);
-  --border-bright: rgba(212, 175, 55, 0.8);
+  /* Gold & Silver-Gold Borders & Accents (Matching Option 3 UV DTF) */
+  --gold-silver: #dfca9b;
+  --gold-silver-glow: rgba(223, 202, 155, 0.35);
+  --border-subtle: rgba(223, 202, 155, 0.14);
+  --border-medium: rgba(223, 202, 155, 0.32);
+  --border-bright: rgba(223, 202, 155, 0.75);
 
   /* Champagne & Liquid Gold */
-  --gold-primary: #d4af37;
-  --gold-light: #f5e8b7;
-  --gold-glow: #ffd966;
+  --gold-primary: #dfca9b;
+  --gold-warm: #d4af37;
+  --gold-light: #f7edd4;
+  --gold-glow: #ffe7a8;
   --gold-deep: #a8820c;
-  --gold-gradient: linear-gradient(135deg, #d4af37 0%, #f7e8b6 50%, #c59b27 100%);
-  --gold-gradient-subtle: linear-gradient(135deg, rgba(212, 175, 55, 0.14) 0%, rgba(247, 232, 182, 0.04) 100%);
+  --gold-gradient: linear-gradient(135deg, #dfca9b 0%, #faecd5 50%, #c2a772 100%);
+  --gold-gradient-subtle: linear-gradient(135deg, rgba(223, 202, 155, 0.14) 0%, rgba(250, 236, 213, 0.03) 100%);
 
   /* Botanical Emerald Accents */
   --emerald-primary: #10b981;
@@ -35,14 +38,17 @@
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
-  --text-gold: #f5e8b7;
-  --text-inverse: #0c100e;
+  --text-gold: #dfca9b;
+  --text-gold-light: #f7edd4;
+  --text-inverse: #08090c;
 
-  /* Scent Role Colors */
+  /* Scent Role Colors (Single Category Standard) */
   --role-top: #f59e0b;
-  --role-heart: #ec4899;
-  --role-base: #8b5cf6;
-  --role-ethanol: #38bdf8;
+  --role-top-glow: rgba(245, 158, 11, 0.28);
+  --role-heart: #f43f5e;
+  --role-heart-glow: rgba(244, 63, 94, 0.28);
+  --role-base: #a855f7;
+  --role-base-glow: rgba(168, 85, 247, 0.28);
   --role-ready: #10b981;
 
   /* Fonts */
@@ -51,13 +57,14 @@
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 
   /* Shadows & Glows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.55);
-  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.7);
-  --shadow-gold: 0 0 20px rgba(212, 175, 55, 0.28);
-  --shadow-gold-lg: 0 0 35px rgba(212, 175, 55, 0.45);
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 8px 28px rgba(0, 0, 0, 0.65);
+  --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.8);
+  --shadow-gold: 0 0 24px rgba(223, 202, 155, 0.25);
+  --shadow-gold-lg: 0 0 40px rgba(223, 202, 155, 0.4);
 
   /* Radii */
+  --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 20px;
@@ -79,6 +86,9 @@ html {
   font-size: 16px;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
 }
 
 body {
@@ -90,10 +100,15 @@ body {
   display: flex;
   flex-direction: column;
   background-image: 
-    radial-gradient(circle at 12% 12%, rgba(212, 175, 55, 0.07) 0%, transparent 45%),
-    radial-gradient(circle at 88% 88%, rgba(16, 185, 129, 0.05) 0%, transparent 45%);
+    radial-gradient(circle at 15% 10%, rgba(223, 202, 155, 0.08) 0%, transparent 48%),
+    radial-gradient(circle at 85% 25%, rgba(16, 185, 129, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 50% 80%, rgba(223, 202, 155, 0.05) 0%, transparent 55%);
   background-attachment: fixed;
   overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Luxury Scrollbars */
